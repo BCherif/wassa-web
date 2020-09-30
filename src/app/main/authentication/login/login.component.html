@@ -1,0 +1,81 @@
+<div id="login" fxLayout="column">
+
+    <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="login-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <div class="logo">
+                <img src="assets/images/logos/tuwindi.png">
+            </div>
+
+            <div class="title">CONNECTEZ-VOUS À VOTRE COMPTE</div>
+
+            <ngx-spinner
+                bdColor="rgba(51,51,51,0.8)"
+                size="medium"
+                color="#006400"
+                type="ball-scale-multiple"
+            >
+                <p style="font-size: 20px; color: white">S'il vous plaît, attendez ...</p>
+            </ngx-spinner>
+
+            <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm" novalidate>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nom d'utilisateur</mat-label>
+                    <input formControlName="username" matInput>
+                    <mat-icon class="secondary-text" matSuffix>people</mat-icon>
+                    <mat-error *ngIf="loginForm.get('username').hasError('required')">
+                        Nom d'utilisateur est requis
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Mot de passe</mat-label>
+                    <input formControlName="password" matInput type="password">
+                    <mat-icon class="secondary-text" matSuffix>vpn_key</mat-icon>
+                    <mat-error>
+                        Mot de passe est requis
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- <div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
+                      fxLayoutAlign="space-between center">
+                     <mat-checkbox class="remember-me" aria-label="Remember Me">
+                         Remember Me
+                     </mat-checkbox>
+
+                     <a class="forgot-password" [routerLink]="'/pages/auth/forgot-password'">
+                         Forgot Password?
+                     </a>
+                 </div>-->
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN"
+                        [disabled]="loginForm.invalid">
+                    SE CONNECTER
+                </button>
+
+            </form>
+
+            <!-- <div class="separator">
+                 <span class="text">OR</span>
+             </div>
+
+             <button mat-raised-button class="google">
+                 Log in with Google
+             </button>
+
+             <button mat-raised-button class="facebook">
+                 Log in with Facebook
+             </button>
+
+             <div class="register" fxLayout="column" fxLayoutAlign="center center">
+                 <span class="text">Don't have an account?</span>
+                 <a class="link" [routerLink]="'/pages/auth/register'">Create an account</a>
+             </div>-->
+
+        </div>
+
+    </div>
+
+</div>

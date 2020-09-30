@@ -1,0 +1,102 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle style="  background: #000000; color: white !important;" class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#006400"
+            type="ball-scale-multiple"
+        >
+            <p style="font-size: 20px; color: white">S'il vous plaît, attendez ...</p>
+        </ngx-spinner>
+
+        <form [formGroup]="financingForm" name="financingForm">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" class="pr-4" fxFlex="50">
+                    <mat-label>Montant total de la ligne</mat-label>
+                    <input type="text" formControlName="total" readonly mask="separator" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="pr-4" fxFlex="50">
+                    <mat-label>Reste à financer</mat-label>
+                    <input type="text" formControlName="stayToFinance" readonly mask="separator" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Partenaire</mat-label>
+                    <mat-select formControlName="partner"
+                                placeholder="choisir un partenaire"
+                                (selectionChange)="onPartnerSelected($event.value)"
+                                required>
+                        <mat-option *ngFor="let partner of partners"
+                                    [value]="partner.id">{{partner?.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Montant à financer</mat-label>
+                    <input #d (input)="checkAmountFinance(d.value)" type="text" required
+                           name="netToPay" formControlName="amount" mask="separator" matInput
+                           autocomplete="off">
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Date de financement</mat-label>
+                    <input matInput [matDatepicker]="financeDatePicker" name="financeDate"
+                           formControlName="financeDate" required readonly>
+                    <mat-datepicker-toggle matSuffix [for]="financeDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #financeDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Mode de reglement</mat-label>
+                    <mat-select formControlName="methodOfPayment" required>
+                        <mat-option *ngFor="let method of methods"
+                                    [value]="method">{{methodOfLinePartnerEnum[method]}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center">
+
+        <button *ngIf="action === 'issue'"
+                mat-button
+                (click)="save()"
+                class="save-button"
+                [disabled]="financingForm.invalid"
+                matTooltip="Enregistrer">
+            Enregistrer
+        </button>
+
+
+        <button (click)="matDialogRef.close()"
+                class="mr-8"
+                mat-button
+                matTooltip="Annnuler">
+            Annnuler
+        </button>
+
+    </div>
+</div>

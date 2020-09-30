@@ -1,0 +1,237 @@
+<div id="budget" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/main/budget-management/budgets'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='edit'">
+                        {{budget?.title}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='new'">
+                        Nouveau budget
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    (click)="save()"
+                    [disabled]="budgetForm.invalid"
+                    *ngIf="pageType ==='new'">
+                <span>Enregistrer</span>
+            </button>
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    [disabled]="budgetForm.invalid || budgetForm.pristine"
+                    *ngIf="pageType ==='edit'">
+                <span>Modifier</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <mat-card>
+                    <form name="budgetForm" [formGroup]="budgetForm" class="product w-100-p" fxLayout="column" fxFlex>
+
+                        <mat-card-content>
+                            <div class="tab-content p-24">
+                                <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-form-field appearance="outline" class="pr-4" floatLabel="always" fxFlex="50">
+                                        <mat-label>Titre</mat-label>
+                                        <input matInput placeholder="le titre du budget"
+                                               name="title"
+                                               formControlName="title"
+                                               required>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="px-4" floatLabel="always" fxFlex="50">
+                                        <mat-label>Projet</mat-label>
+                                        <mat-select formControlName="project"
+                                                    placeholder="choisir un projet"
+                                                    (selectionChange)="onProjectSelected($event.value)"
+                                                    required>
+                                            <mat-option *ngFor="let project of projects"
+                                                        [value]="project.id">{{project?.title}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- Start form units array with first row must and dynamically add more -->
+                            <mat-card formArrayName="sections">
+                                <mat-card-title>Lignes budgétaire</mat-card-title>
+                                <mat-divider></mat-divider>
+
+                                <!-- loop throught lignes -->
+                                <div *ngFor="let section of getSections(budgetForm); let i=index">
+
+                                    <!-- row divider show for every nex row exclude if first row -->
+                                    <mat-divider
+                                        *ngIf="budgetForm.controls.sections['controls'].length > 1 && i > 0">
+                                    </mat-divider>
+                                    <br>
+
+                                    <!-- group name in this case row index -->
+                                    <div [formGroupName]="i">
+                                        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                                             fxLayoutAlign="center">
+                                            <!-- unit name input field -->
+                                            <mat-form-field fxFlex="100%">
+                                                <input matInput placeholder="Section" formControlName="name"
+                                                       required>
+                                                <!-- input field error -->
+                                                <mat-error *ngIf="section.controls.name.invalid">
+                                                    La section est obligatoire.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div formArrayName="lines">
+                                            <div [formGroupName]="j"
+                                                 *ngFor="let ligne of getLignes(section); let j=index">
+                                                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                                                     fxLayoutAlign="center">
+                                                    <mat-form-field fxFlex="30%">
+                                                        <input matInput placeholder="libellé" formControlName="title"
+                                                               required>
+                                                        <!-- input field error -->
+                                                        <mat-error *ngIf="ligne.controls.title.invalid">
+                                                            Le libellé est obligatoire.
+                                                        </mat-error>
+                                                    </mat-form-field>
+
+                                                    <mat-form-field fxFlex="10%" fxFlex.xs="20">
+                                                        <mat-select formControlName="category"
+                                                                    placeholder="Catégorie"
+                                                                    required>
+                                                            <mat-option *ngFor="let category of categories"
+                                                                        [value]="category">{{category?.name}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                    <mat-form-field fxFlex="10%" fxFlex.xs="20">
+                                                        <mat-select formControlName="unity1"
+                                                                    placeholder="unité 1"
+                                                                    required>
+                                                            <mat-option *ngFor="let unity1 of unities1"
+                                                                        [value]="unity1">{{unity1?.title}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                    <mat-form-field fxFlex="10%" fxFlex.xs="20">
+                                                        <input matInput placeholder="nombre1" type="number"
+                                                               formControlName="quantity1" required>
+                                                    </mat-form-field>
+
+                                                    <mat-form-field fxFlex="10%" fxFlex.xs="20">
+                                                        <mat-select formControlName="unity2"
+                                                                    placeholder="unité 2"
+                                                                    required>
+                                                            <mat-option *ngFor="let unity2 of unities2"
+                                                                        [value]="unity2">{{unity2?.title}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+
+                                                    <mat-form-field fxFlex="10%" fxFlex.xs="20">
+                                                        <input matInput placeholder="nombre2" type="number"
+                                                               formControlName="quantity2" required>
+                                                    </mat-form-field>
+
+                                                    <mat-form-field fxFlex="20%" fxFlex.xs="grow">
+                                                        <input matInput placeholder="Prix unitaire" type="text"
+                                                               (input)="calculateSubtotal(i)" mask="separator"
+                                                               formControlName="unitPrice" required>
+                                                    </mat-form-field>
+
+                                                    <!-- ligne total price input field, calculated and not editable -->
+                                                    <div fxLayout.xs="row">
+                                                        <mat-form-field>
+                                                            <input matInput placeholder="Total"
+                                                                   type="text" mask="separator"
+                                                                   readonly
+                                                                   formControlName="total">
+                                                        </mat-form-field>
+
+                                                        <!-- row delete button, hidden if there is just one row -->
+                                                        <button type="button" mat-mini-fab color="warn" fxFlex="nogrow"
+                                                                *ngIf="getLignes(section).length > 1"
+                                                                (click)="removeLigne(i,j)">
+                                                            <mat-icon>delete forever</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div fxLayout.xs="row">
+                                            <button type="button" mat-raised-button (click)="addLine(i)">
+                                                <mat-icon>add box</mat-icon>
+                                                Ajouter une ligne
+                                            </button>&nbsp;
+                                            <button type="button" mat-raised-button
+                                                    (click)="removeSection(i)">
+                                                <mat-icon>remove_circle</mat-icon>
+                                                Effacer la section
+                                            </button>
+                                        </div>
+                                        <br>
+                                        <!-- Total price calculation formated with angular currency pipe -->
+                                        <mat-card *ngIf="getLignes(section).length > 1">
+                                            Le sous-total
+                                            est {{ getSubTotal(i) | number:'':'fr-FR'}} F CFA
+                                        </mat-card>
+                                    </div>
+                                </div>
+
+                                <!-- New unit button -->
+                                <mat-divider></mat-divider>
+                                <mat-card-actions>
+                                    <button type="button" mat-raised-button (click)="addSection()">
+                                        <mat-icon>add box</mat-icon>
+                                        Ajouter une section
+                                    </button>
+                                    <button type="button" mat-raised-button (click)="clearAllLignes()">
+                                        <mat-icon>remove_circle</mat-icon>
+                                        Tout effacer
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card> <!-- End form units array -->
+                        </mat-card-content>
+
+                    </form>
+                </mat-card>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

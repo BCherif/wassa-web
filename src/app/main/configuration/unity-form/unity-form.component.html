@@ -1,0 +1,75 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle style="  background: #000000; color: white !important;" class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#006400"
+            type="ball-scale-multiple"
+        >
+            <p style="font-size: 20px; color: white">S'il vous plaît, attendez ...</p>
+        </ngx-spinner>
+
+        <form [formGroup]="unityForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Titre</mat-label>
+                    <input name="title" formControlName="title" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="typeUnity"
+                                required>
+                        <mat-option *ngFor="let typeUnity of typeUnities"
+                                    [value]="typeUnity">{{type[typeUnity]}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center">
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="saveOrUpdate()"
+                [disabled]="unityForm.invalid"
+                matTooltip="Enregistrer">
+            Enregistrer
+        </button>
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="saveOrUpdate()"
+                [disabled]="unityForm.invalid || unityForm.pristine"
+                matTooltip="Modifier">
+            Modifier
+        </button>
+
+        <button (click)="matDialogRef.close()"
+                class="mr-8"
+                mat-button
+                matTooltip="Annnuler">
+            Annnuler
+        </button>
+
+    </div>
+</div>
