@@ -122,9 +122,9 @@ export class UnitsComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(value => {
-            this.units = value.content;
+            this.units = value?.content;
             this.filteredUnits = this.units;
-            this.totalElements = value.totalElements;
+            this.totalElements = value?.totalElements;
         });
     }
 
@@ -138,9 +138,12 @@ export class UnitsComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(value => {
-            this.units = value.content;
+            if (!value) {
+                this.getAllUnits();
+            }
+            this.units = value?.content;
             this.filteredUnits = this.units;
-            this.totalElements = value.totalElements;
+            this.totalElements = value?.totalElements;
         });
     }
 }

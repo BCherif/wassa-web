@@ -1,0 +1,120 @@
+<div class="page-layout carded fullwidth inner-scroll" id="demands">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayout.gt-sm="row"
+             fxLayoutAlign="center center" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}" class="logo-icon s-32 mr-16">
+                    person
+                </mat-icon>
+                <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" class="logo-text h1">
+                    Demandes
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper  ml-sm-32">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input [formControl]="searchInput" placeholder="Rechercher une demande">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+            <button mat-raised-button
+                    [routerLink]="'/main/staff_management/demands/new'"
+                    class="add-product-button fuse-white mt-24 mt-md-0">
+                <mat-icon>add</mat-icon>
+                <span>Nouvelle demande</span>
+            </button>
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table #table
+                       [@animateStagger]="{value:'50'}" [dataSource]="filteredDemands"
+                       class="demands-table"
+                       fusePerfectScrollbar
+                       matSort>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="title">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>
+                    <mat-cell *matCellDef="let demand">
+                        <p class="text-truncate">{{demand?.title}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="createBy">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Envoyé par</mat-header-cell>
+                    <mat-cell *matCellDef="let demand">
+                        <p class="text-truncate">
+                            {{demand?.createBy?.employee?.firstname}}  {{demand?.createBy?.employee?.lastname}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="demandDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+                    <mat-cell *matCellDef="let demand">
+                        <p class="text-truncate">{{demand?.demandDate | date: 'dd/MM/yyyy'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="demandState">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Etat</mat-header-cell>
+                    <mat-cell *matCellDef="let demand">
+                        <p class="text-truncate"
+                           [ngStyle]="{'background-color': demand?.demandState==='APPROVED'?'#00BCD4':demand?.demandState==='IN_VALIDATION'?'#009688':demand?.demandState==='TO_CONFIRM'?'#4CAF50':demand?.demandState==='REFUSE'?'#D0312D':'#00BCD4'}">
+                            {{demandState[demand?.demandState]}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Buttons Column -->
+                <ng-container matColumnDef="buttons">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let demand">
+                        <a matTooltip="Modifier" *ngIf="demand?.demandState ==='APPROVED'"
+                           [routerLink]="'/main/staff_management/demands/'+demand?.id+'/'+demand?.title">
+                            <mat-icon>edit</mat-icon>
+                        </a>&nbsp;&nbsp;
+                        <a matTooltip="Approuver" *ngIf="demand?.demandState ==='APPROVED'"
+                           [routerLink]="'/main/staff_management/approve/'+demand?.id">
+                            <mat-icon>check_circle</mat-icon>
+                        </a>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let demand; columns: displayedColumns;"
+                         class="demand"
+                         matRipple>
+                </mat-row>
+
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements"
+                           (page)="nextPage($event)">
+            </mat-paginator>
+
+        </div>
+
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

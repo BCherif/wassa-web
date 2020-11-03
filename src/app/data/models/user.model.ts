@@ -1,6 +1,7 @@
 import {Deserializable} from '../wrapper/deserializable.wrapper';
 import {Injectable} from '@angular/core';
 import {Role} from './role.model';
+import {Employee} from './employee.model';
 
 @Injectable()
 export class User implements Deserializable {
@@ -12,17 +13,19 @@ export class User implements Deserializable {
     checked: boolean;
     token?: string;
     roles?: Role[];
+    employee?: Employee;
 
 
     constructor(user?) {
         user = user || {};
-        this.username = user.username;
-        this.enabled = user.enabled;
-        this.password = user.password;
-        this.roles = user.roles || [];
-        this.loggedIn = user.loggedIn;
-        this.token = user.token;
-        this.checked = user.checked;
+        this.username = user?.username;
+        this.enabled = user?.enabled;
+        this.password = user?.password;
+        this.roles = user?.roles || [];
+        this.loggedIn = user?.loggedIn;
+        this.employee = user?.employee;
+        this.token = user?.token;
+        this.checked = user?.checked;
     }
 
     deserialize(input: any): this {

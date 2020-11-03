@@ -109,4 +109,13 @@ export class CategoryFormComponent {
             });
         }
     }
+
+    closeDialog() {
+        this._categoriesService.getCategories(this._categoriesService.pageBody).subscribe(data => {
+            const listResponseBody = new ListResponseBody<Category>();
+            listResponseBody.content = data['content'];
+            listResponseBody.totalElements = data['totalElements'];
+            this.matDialogRef.close(listResponseBody);
+        });
+    }
 }

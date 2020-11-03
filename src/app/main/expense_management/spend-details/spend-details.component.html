@@ -1,0 +1,38 @@
+<!--
+<h2 mat-dialog-title>{{spend?.label}}</h2>
+-->
+<h2 mat-dialog-title>Details de la dépense</h2>
+<mat-dialog-content>
+    <div class="cc div-attached-details" style="width: 73%; margin-right: 2%;">
+        <table class="maximum">
+            <tr>
+                <td class="first">
+                    <img class="picture-details"
+                         *ngIf="spend?.pictures" [alt]="spend?.label" title="Image associee"
+                         src="{{_spendsService.imageURL}}/{{spend?.pictures}}"/>
+                    <!--<mat-icon *ngIf="!spend?.pictures" title="Aucune image associee">visibility_off</mat-icon>-->
+                    <img *ngIf="!spend?.pictures"
+                         [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+                </td>
+                <td class="second">
+                 <span>{{spend?.label}}/
+                     {{spend?.budgetLine?.title}}</span>
+                    <p>Montant : {{spend?.amount | number:'':'fr-FR'}} F CFA</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center">
+    <button mat-raised-button class="save-button"
+            matTooltip="Valider"
+            (click)="validate(spend)"
+            color="primary">
+        <mat-icon>check</mat-icon>&nbsp;
+        <span>Valider</span>
+    </button>
+    <button mat-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>&nbsp;
+        Fermer
+    </button>
+</mat-dialog-actions>

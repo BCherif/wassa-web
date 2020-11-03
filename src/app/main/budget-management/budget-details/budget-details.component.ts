@@ -19,7 +19,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {ExcelService} from '../../../services/excel.service';
-import * as FileSaver from 'file-saver';
+import {DisbursementComponent} from '../../expense_management/disbursement/disbursement.component';
 
 
 @Component({
@@ -143,6 +143,19 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy {
     issueFinancing(action?: string, budgetLigne?: BudgetLigne) {
         this.dialogRef = this._matDialog.open(LinePartnerComponent, {
             panelClass: 'line-partner-form-dialog',
+            data: {
+                budgetLigne: budgetLigne,
+                action: action
+            }
+        });
+    }
+
+    /**
+     * issue disbursement
+     */
+    issueDisbursement(action?: string, budgetLigne?: BudgetLigne): void {
+        const dialogRef = this._matDialog.open(DisbursementComponent, {
+            panelClass: 'disbursement-form-dialog',
             data: {
                 budgetLigne: budgetLigne,
                 action: action

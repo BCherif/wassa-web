@@ -119,9 +119,9 @@ export class ProjectsComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(value => {
-            this.projects = value.content;
+            this.projects = value?.content;
             this.filteredProjects = this.projects;
-            this.totalElements = value.totalElements;
+            this.totalElements = value?.totalElements;
         });
     }
 
@@ -134,9 +134,12 @@ export class ProjectsComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(value => {
-            this.projects = value.content;
+            if (!value) {
+                this.getAll();
+            }
+            this.projects = value?.content;
             this.filteredProjects = this.projects;
-            this.totalElements = value.totalElements;
+            this.totalElements = value?.totalElements;
         });
     }
 }

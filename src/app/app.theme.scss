@@ -82,12 +82,17 @@ $typography: mat-typography-config(
 @import "src/app/layout/components/toolbar/toolbar.theme";
 @import "src/app/main/authentication/login/login.theme";
 @import "src/app/main/administration/users/users.theme";
+@import "src/app/main/staff_management/employees/employees.theme";
 @import "src/app/main/administration/roles/roles.theme";
 @import "src/app/main/configuration/categories/categories.theme";
 @import "src/app/main/configuration/units/units.theme";
 @import "src/app/main/configuration/projects/projects.theme";
 @import "src/app/main/configuration/partners/partners.theme";
 @import "src/app/main/budget-management/budgets/budgets.theme";
+@import "src/app/main/configuration/jobs/jobs.theme";
+@import "src/app/main/configuration/departments/departments.theme";
+@import "src/app/main/staff_management/demands/demands.theme";
+@import "src/app/main/expense_management/spends/spends.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -100,9 +105,14 @@ $typography: mat-typography-config(
     @include administration-users-theme($theme);
     @include configuration-categories-theme($theme);
     @include configuration-units-theme($theme);
+    @include configuration-jobs-theme($theme);
     @include configuration-projects-theme($theme);
+    @include configuration-departments-theme($theme);
     @include configuration-partners-theme($theme);
     @include budget-management-budgets-theme($theme);
+    @include staff_management-employees-theme($theme);
+    @include staff_management-demands-theme($theme);
+    @include expense_management-spends-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

@@ -11,14 +11,26 @@ export class TuwindiUtils {
     httpHeaders() {
         const token: string = this.getToken();
         let headers = new HttpHeaders();
-
         if (token) { // token is present
             headers = headers.set('authorization', 'Bearer ' + token);
         }
-        const httpOptions = {
+        return {
             headers: headers
         };
-        return httpOptions;
+    }
+
+    uploadOption() {
+        const token: string = this.getToken();
+        let _headers = new HttpHeaders();
+        if (token) {
+            _headers = _headers.set('enctype', 'multipart/form-data');
+            _headers = _headers.set('authorization', 'Bearer ' + token);
+        }
+        // let _headers = new HttpHeaders({
+        //     enctype: 'multipart/form-data',
+        //     Authorization: `${token}`
+        // });
+        return {headers: _headers};
     }
 
     getToken(): string {

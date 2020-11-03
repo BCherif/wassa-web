@@ -37,6 +37,43 @@ export const navigation: FuseNavigation[] = [
                 ]
             },
             {
+                id: 'staff_management',
+                title: 'Gestion du Personnel',
+                type: 'collapsable',
+                icon: 'person',
+                children: [
+                    {
+                        id: 'employees',
+                        title: 'Employés',
+                        type: 'item',
+                        icon: 'person',
+                        url: '/main/staff_management/employees'
+                    },
+                    {
+                        id: 'demands',
+                        title: 'Demandes',
+                        type: 'item',
+                        icon: 'person',
+                        url: '/main/staff_management/demands'
+                    }
+                ]
+            },
+            {
+                id: 'expense_management',
+                title: 'Gestion dépense',
+                type: 'collapsable',
+                icon: 'attach_money',
+                children: [
+                    {
+                        id: 'spends',
+                        title: 'Dépenses',
+                        type: 'item',
+                        icon: 'attach_money',
+                        url: '/main/expense_management/spends'
+                    }
+                ]
+            },
+            {
                 id: 'configuration',
                 title: 'Configurations',
                 type: 'collapsable',
@@ -69,6 +106,20 @@ export const navigation: FuseNavigation[] = [
                         type: 'item',
                         icon: 'settings',
                         url: '/main/configuration/units'
+                    },
+                    {
+                        id: 'jobs',
+                        title: 'Professions',
+                        type: 'item',
+                        icon: 'work',
+                        url: '/main/configuration/jobs'
+                    },
+                    {
+                        id: 'departments',
+                        title: 'Départements',
+                        type: 'item',
+                        icon: 'home',
+                        url: '/main/configuration/departments'
                     }
                 ]
             },

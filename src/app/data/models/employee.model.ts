@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Deserializable} from '../wrapper/deserializable.wrapper';
 import {Department} from './department.model';
+import {Job} from './job.model';
 
 @Injectable()
 export class Employee implements Deserializable {
     id: number;
     lastname: string;
     firstname: string;
-    fonction: string;
+    job: Job;
     email: string;
     telephone: string;
     address: string;
@@ -18,7 +19,7 @@ export class Employee implements Deserializable {
         this.id = employee.id;
         this.lastname = employee.lastname;
         this.firstname = employee.firstname;
-        this.fonction = employee.fonction;
+        this.job = employee.job;
         this.email = employee.email;
         this.telephone = employee.telephone;
         this.address = employee.address;

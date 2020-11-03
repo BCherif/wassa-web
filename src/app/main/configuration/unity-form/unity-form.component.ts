@@ -83,7 +83,7 @@ export class UnityFormComponent {
                 if (data['status'] === 'OK') {
                     this._toastr.success(data['message']);
                     this._unitsService.getUnits(this._unitsService.pageBody).subscribe(data => {
-                        const listResponseBody = new ListResponseBody<Category>();
+                        const listResponseBody = new ListResponseBody<Unity>();
                         listResponseBody.content = data['content'];
                         listResponseBody.totalElements = data['totalElements'];
                         this.matDialogRef.close(listResponseBody);
@@ -100,7 +100,7 @@ export class UnityFormComponent {
                 if (data['status'] === 'OK') {
                     this._toastr.success(data['message']);
                     this._unitsService.getUnits(this._unitsService.pageBody).subscribe(data => {
-                        const listResponseBody = new ListResponseBody<Category>();
+                        const listResponseBody = new ListResponseBody<Unity>();
                         listResponseBody.content = data['content'];
                         listResponseBody.totalElements = data['totalElements'];
                         this.matDialogRef.close(listResponseBody);
@@ -113,5 +113,14 @@ export class UnityFormComponent {
                 }
             });
         }
+    }
+
+    closeDialog() {
+        this._unitsService.getUnits(this._unitsService.pageBody).subscribe(data => {
+            const listResponseBody = new ListResponseBody<Unity>();
+            listResponseBody.content = data['content'];
+            listResponseBody.totalElements = data['totalElements'];
+            this.matDialogRef.close(listResponseBody);
+        });
     }
 }

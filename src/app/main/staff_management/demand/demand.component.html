@@ -1,0 +1,105 @@
+<div id="demand" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/main/staff_management/demands'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='edit'">
+                        {{demand?.title}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='new'">
+                        Ajouter une demande
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+
+            <button mat-raised-button
+                    class="save-product-button" (click)="saveOrUpdate()"
+                    [disabled]="demandForm.invalid"
+                    *ngIf="pageType ==='new'">
+                <span>Enregistrer</span>
+            </button>
+
+            <button mat-raised-button
+                    class="save-product-button"
+                    [disabled]="demandForm.invalid || demandForm.pristine"
+                    *ngIf="pageType ==='edit'">
+                <span>Modifier</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="demandForm" [formGroup]="demandForm" class="product w-100-p" fxLayout="column" fxFlex>
+
+                    <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Objet</mat-label>
+                            <input matInput placeholder="Objet de la demande"
+                                   name="title"
+                                   formControlName="title"
+                                   required>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Budget</mat-label>
+                            <mat-select formControlName="budget"
+                                        placeholder="choisir un budget"
+                                        (selectionChange)="onBudgetSelected($event.value)"
+                                        required>
+                                <mat-option *ngFor="let budget of budgets"
+                                            [value]="budget.id">
+                                    {{budget?.title}} / {{budget?.project?.title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Date de la demande</mat-label>
+                            <input [matDatepicker]="dateOfDemand"
+                                   formControlName="demandDate" matInput required
+                                   name="demandDate">
+                            <mat-datepicker-toggle [for]="dateOfDemand" matSuffix></mat-datepicker-toggle>
+                            <mat-datepicker #dateOfDemand></mat-datepicker>
+                        </mat-form-field>
+
+                        <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                            <quill-editor formControlName="description" required></quill-editor>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

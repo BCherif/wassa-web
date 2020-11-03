@@ -30,6 +30,12 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {PartnersComponent} from './partners/partners.component';
 import {PartnersService} from './partners/partners.service';
 import {PartnerFormComponent} from './partner-form/partner-form.component';
+import {JobsComponent} from './jobs/jobs.component';
+import {JobsService} from './jobs/jobs.service';
+import {JobFormComponent} from './job-form/job-form.component';
+import {DepartmentsComponent} from './departments/departments.component';
+import {DepartmentsService} from './departments/departments.service';
+import {DepartmentFormComponent} from './department-form/department-form.component';
 
 const routes: Routes = [
     {
@@ -54,6 +60,20 @@ const routes: Routes = [
         }
     },
     {
+        path: 'departments',
+        component: DepartmentsComponent,
+        resolve: {
+            data: DepartmentsService
+        }
+    },
+    {
+        path: 'jobs',
+        component: JobsComponent,
+        resolve: {
+            data: JobsService
+        }
+    },
+    {
         path: 'partners',
         component: PartnersComponent,
         resolve: {
@@ -68,10 +88,14 @@ const routes: Routes = [
         CategoryFormComponent,
         UnitsComponent,
         UnityFormComponent,
+        JobFormComponent,
         ProjectsComponent,
         ProjectFormComponent,
         PartnersComponent,
-        PartnerFormComponent
+        PartnerFormComponent,
+        JobsComponent,
+        DepartmentsComponent,
+        DepartmentFormComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -102,7 +126,9 @@ const routes: Routes = [
         CategoryFormComponent,
         UnityFormComponent,
         ProjectFormComponent,
-        PartnerFormComponent
+        PartnerFormComponent,
+        JobFormComponent,
+        DepartmentFormComponent
     ]
 })
 export class ConfigurationModule {

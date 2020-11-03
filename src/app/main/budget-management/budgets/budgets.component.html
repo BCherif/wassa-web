@@ -80,7 +80,8 @@
                 <ng-container matColumnDef="buttons">
                     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let budget">
-                        <a [routerLink]="'/main/budget-management/budgets/details/'+budget.id">
+                        <a matTooltip="Voir details"
+                           [routerLink]="'/main/budget-management/budget-details/details/'+budget.id">
                             <mat-icon>remove_red_eye</mat-icon>
                         </a>&nbsp;&nbsp;
                         <!--<a>

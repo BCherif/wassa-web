@@ -4,7 +4,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Category} from '../../../data/models/category.model';
-import {CategoriesService} from '../categories/categories.service';
 import {ListResponseBody} from '../../../utils/list-response-body';
 import {Project} from '../../../data/models/project.model';
 import {ProjectsService} from '../projects/projects.service';
@@ -83,7 +82,7 @@ export class ProjectFormComponent {
                 if (data['status'] === 'OK') {
                     this._toastr.success(data['message']);
                     this._projectsService.getProjects(this._projectsService.pageBody).subscribe(data => {
-                        const listResponseBody = new ListResponseBody<Category>();
+                        const listResponseBody = new ListResponseBody<Project>();
                         listResponseBody.content = data['content'];
                         listResponseBody.totalElements = data['totalElements'];
                         this.matDialogRef.close(listResponseBody);
@@ -100,7 +99,7 @@ export class ProjectFormComponent {
                 if (data['status'] === 'OK') {
                     this._toastr.success(data['message']);
                     this._projectsService.getProjects(this._projectsService.pageBody).subscribe(data => {
-                        const listResponseBody = new ListResponseBody<Category>();
+                        const listResponseBody = new ListResponseBody<Project>();
                         listResponseBody.content = data['content'];
                         listResponseBody.totalElements = data['totalElements'];
                         this.matDialogRef.close(listResponseBody);
@@ -113,5 +112,14 @@ export class ProjectFormComponent {
                 }
             });
         }
+    }
+
+    closeDialog() {
+        this._projectsService.getProjects(this._projectsService.pageBody).subscribe(data => {
+            const listResponseBody = new ListResponseBody<Project>();
+            listResponseBody.content = data['content'];
+            listResponseBody.totalElements = data['totalElements'];
+            this.matDialogRef.close(listResponseBody);
+        });
     }
 }

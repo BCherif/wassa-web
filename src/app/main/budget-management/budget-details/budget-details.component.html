@@ -51,7 +51,7 @@
                                 <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
                                     <mat-icon class="m-0 mr-16 secondary-text">school</mat-icon>
                                     <div class="h2 secondary-text">Projet</div>
-                                    <div style="padding-left: 70% !important;">
+                                    <div style="padding-left: 65% !important;">
                                         <button
                                             (click)="exportBudgetExcel(budget?.id)"
                                             style="background-color: #1E2129 !important;"
@@ -371,8 +371,10 @@
                                     <th class="w-120">Total</th>
                                     <th class="w-120">Montant financé</th>
                                     <th class="w-120">Reste à financé</th>
+                                    <th class="w-120">Realisé</th>
+                                    <th class="w-120">Ecart</th>
                                     <th class="w-120">Etat</th>
-                                    <th class="w-120">Actions</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -394,6 +396,12 @@
                                         {{line?.stayToFinance | number:'':'fr-FR'}} F CFA
                                     </td>
                                     <td>
+                                        {{line?.realized | number:'':'fr-FR'}} F CFA
+                                    </td>
+                                    <td>
+                                        {{line?.difference | number:'':'fr-FR'}} F CFA
+                                    </td>
+                                    <td>
                                         <span class="status h6 p-4"
                                               [ngStyle]="{'background-color': line.state==='PENDING'?'#2196F3':line.state==='CLOSE'?'#4CAF50':line.state==='IN_FINANCING'?'#ffa500':'#2196F3'}">
                                             {{lineState[line?.state]}}
@@ -403,6 +411,11 @@
                                         <span *ngIf="line?.stayToFinance !=0">
                                         <mat-icon (click)="issueFinancing('issue', line)"
                                                   matTooltip="Emission d'un financement">assignment
+                                        </mat-icon>
+                                        </span>&nbsp;&nbsp;
+                                        <span>
+                                        <mat-icon (click)="issueDisbursement('issue', line)"
+                                                  matTooltip="Décaissement">attach_money
                                         </mat-icon>
                                         </span>
                                     </td>

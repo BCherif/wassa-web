@@ -119,9 +119,9 @@ export class CategoriesComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(value => {
-            this.categories = value.content;
+            this.categories = value?.content;
             this.filteredCategories = this.categories;
-            this.totalElements = value.totalElements;
+            this.totalElements = value?.totalElements;
         });
     }
 
@@ -135,9 +135,12 @@ export class CategoriesComponent implements OnInit {
             }
         });
         dialogRef.afterClosed().subscribe(value => {
-            this.categories = value.content;
+            if (!value) {
+                this.getAll();
+            }
+            this.categories = value?.content;
             this.filteredCategories = this.categories;
-            this.totalElements = value.totalElements;
+            this.totalElements = value?.totalElements;
         });
     }
 }

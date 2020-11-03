@@ -1,10 +1,10 @@
 import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 import {AgmCoreModule} from '@agm/core';
 import {FuseSharedModule} from '../../../@fuse/shared.module';
 import {FuseWidgetModule} from '../../../@fuse/components';
-import {NgxSpinnerModule} from 'ngx-spinner';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {NgModule} from '@angular/core';
+import {NgxSpinnerModule} from 'ngx-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
@@ -17,19 +17,17 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-
-import {NgxMaskModule, IConfig} from 'ngx-mask';
-import {BudgetsComponent} from './budgets/budgets.component';
-import {BudgetsService} from './budgets/budgets.service';
-import {BudgetComponent} from './budget/budget.component';
-import {BudgetService} from './budget/budget.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
-import {BudgetDetailsComponent} from './budget-details/budget-details.component';
-import {BudgetDetailsService} from './budget-details/budget-details.service';
 import {MatTabsModule} from '@angular/material/tabs';
-import {LinePartnerComponent} from './line-partner/line-partner.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {ConfirmDialogModule} from '../confirm-dialog/confirm-dialog.module';
+import {SpendsComponent} from './spends/spends.component';
+import {SpendsService} from './spends/spends.service';
+import {DisbursementComponent} from './disbursement/disbursement.component';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
+import {DialogModule} from 'primeng/dialog';
+import {SpendDetailsComponent} from './spend-details/spend-details.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -37,41 +35,19 @@ const maskConfig: Partial<IConfig> = {
 
 const routes: Routes = [
     {
-        path: 'budgets',
-        component: BudgetsComponent,
+        path: 'spends',
+        component: SpendsComponent,
         resolve: {
-            data: BudgetsService
+            data: SpendsService
         }
     },
-    {
-        path: 'budgets/:id',
-        component: BudgetComponent,
-        resolve: {
-            data: BudgetService
-        }
-    },
-    {
-        path: 'budgets/details/:id',
-        component: BudgetDetailsComponent,
-        resolve: {
-            data: BudgetDetailsService
-        }
-    },
-    {
-        path: 'budgets/:id/:title',
-        component: BudgetComponent,
-        resolve: {
-            data: BudgetService
-        }
-    }
 ];
 
 @NgModule({
     declarations: [
-        BudgetsComponent,
-        BudgetComponent,
-        BudgetDetailsComponent,
-        LinePartnerComponent
+        SpendsComponent,
+        DisbursementComponent,
+        SpendDetailsComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -98,11 +74,16 @@ const routes: Routes = [
         MatCardModule,
         MatDividerModule,
         MatTabsModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        ConfirmDialogModule,
+        DialogModule
     ],
-    providers: [BudgetService],
-    entryComponents: [LinePartnerComponent]
+    providers: [],
+    entryComponents: [
+        DisbursementComponent,
+        SpendDetailsComponent
+    ]
 })
-export class BugetManagementModule {
+export class ExpenseManagementModule {
 
 }

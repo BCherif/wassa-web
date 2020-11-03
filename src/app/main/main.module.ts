@@ -13,7 +13,15 @@ const routes = [
     },
     {
         path: 'budget-management',
-        loadChildren: () => import('./budget-management/buget-management.module').then(m => m.BugetManagementModule)
+        loadChildren: () => import('./budget-management/budget-management.module').then(m => m.BudgetManagementModule)
+    },
+    {
+        path: 'staff_management',
+        loadChildren: () => import('./staff_management/staff-management.module').then(m => m.StaffManagementModule)
+    },
+    {
+        path: 'expense_management',
+        loadChildren: () => import('./expense_management/expense_management').then(m => m.ExpenseManagementModule)
     }
 ];
 

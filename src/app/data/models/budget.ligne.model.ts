@@ -16,9 +16,11 @@ export class BudgetLigne implements Deserializable {
     quantity2: number;
     unitPrice: number;
     total: number;
-    solde: number;
-    finance: number;
-    stayToFinance: number;
+    solde: number = 0;
+    finance: number = 0;
+    stayToFinance: number = 0;
+    realized: number = 0;
+    difference: number = 0;
     state: LINE_STATE = LINE_STATE.PENDING;
     unity1: Unity;
     unity2: Unity;
@@ -39,6 +41,8 @@ export class BudgetLigne implements Deserializable {
         this.solde = budgetLigne.solde;
         this.finance = budgetLigne.finance;
         this.stayToFinance = budgetLigne.stayToFinance;
+        this.realized = budgetLigne.realized;
+        this.difference = budgetLigne.difference;
         this.state = budgetLigne.state;
         this.unity1 = budgetLigne.unity1;
         this.unity2 = budgetLigne.unity2;

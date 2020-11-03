@@ -56,7 +56,6 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes),
 
         TranslateModule.forRoot(),
-
         // Material moment date module
         MatMomentDateModule,
 

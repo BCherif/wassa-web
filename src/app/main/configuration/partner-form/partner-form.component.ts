@@ -80,7 +80,7 @@ export class PartnerFormComponent {
                 if (data['status'] === 'OK') {
                     this._toastr.success(data['message']);
                     this._partnersService.getPartners(this._partnersService.pageBody).subscribe(data => {
-                        const listResponseBody = new ListResponseBody<Category>();
+                        const listResponseBody = new ListResponseBody<Partner>();
                         listResponseBody.content = data['content'];
                         listResponseBody.totalElements = data['totalElements'];
                         this.matDialogRef.close(listResponseBody);
@@ -97,7 +97,7 @@ export class PartnerFormComponent {
                 if (data['status'] === 'OK') {
                     this._toastr.success(data['message']);
                     this._partnersService.getPartners(this._partnersService.pageBody).subscribe(data => {
-                        const listResponseBody = new ListResponseBody<Category>();
+                        const listResponseBody = new ListResponseBody<Partner>();
                         listResponseBody.content = data['content'];
                         listResponseBody.totalElements = data['totalElements'];
                         this.matDialogRef.close(listResponseBody);
@@ -110,5 +110,14 @@ export class PartnerFormComponent {
                 }
             });
         }
+    }
+
+    closeDialog() {
+        this._partnersService.getPartners(this._partnersService.pageBody).subscribe(data => {
+            const listResponseBody = new ListResponseBody<Partner>();
+            listResponseBody.content = data['content'];
+            listResponseBody.totalElements = data['totalElements'];
+            this.matDialogRef.close(listResponseBody);
+        });
     }
 }
