@@ -7,20 +7,6 @@ export const navigation: FuseNavigation[] = [
         translate: 'NAV.APPLICATIONS',
         type: 'group',
         children: [
-            /*{
-                id       : 'sample',
-                title    : 'Sample',
-                translate: 'NAV.SAMPLE.TITLE',
-                type     : 'item',
-                icon     : 'email',
-                url      : '/sample',
-                badge    : {
-                    title    : '25',
-                    translate: 'NAV.SAMPLE.BADGE',
-                    bg       : '#F44336',
-                    fg       : '#FFFFFF'
-                }
-            },*/
             {
                 id: 'budget-management',
                 title: 'Gestion Budgétaire',
@@ -37,7 +23,22 @@ export const navigation: FuseNavigation[] = [
                 ]
             },
             {
-                id: 'staff_management',
+                id: 'expenses-management',
+                title: 'Gestion dépense',
+                type: 'collapsable',
+                icon: 'attach_money',
+                children: [
+                    {
+                        id: 'activities',
+                        title: 'Demandes',
+                        type: 'item',
+                        icon: 'library_books',
+                        url: '/main/expenses-management/activities'
+                    }
+                ]
+            },
+            {
+                id: 'staff-management',
                 title: 'Gestion du Personnel',
                 type: 'collapsable',
                 icon: 'person',
@@ -47,31 +48,24 @@ export const navigation: FuseNavigation[] = [
                         title: 'Employés',
                         type: 'item',
                         icon: 'person',
-                        url: '/main/staff_management/employees'
-                    },
-                    {
-                        id: 'demands',
-                        title: 'Demandes',
-                        type: 'item',
-                        icon: 'person',
-                        url: '/main/staff_management/demands'
+                        url: '/main/staff-management/employees'
                     }
                 ]
             },
             {
-                id: 'expense_management',
-                title: 'Gestion dépense',
-                type: 'collapsable',
-                icon: 'attach_money',
-                children: [
-                    {
-                        id: 'spends',
-                        title: 'Dépenses',
-                        type: 'item',
-                        icon: 'attach_money',
-                        url: '/main/expense_management/spends'
-                    }
-                ]
+                id: 'reporting',
+                title: 'Rapports',
+                type: 'item',
+                icon: 'local_atm',
+                url: '/main/reporting/reports'
+            },
+            {
+                id: 'task',
+                title: 'Tâches',
+                type: 'item',
+                icon: 'check_box',
+                url: '/main/tasks/all',
+                exactMatch: true
             },
             {
                 id: 'configuration',

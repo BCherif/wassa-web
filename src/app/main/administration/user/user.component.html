@@ -1,0 +1,122 @@
+<div id="user" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#006400"
+            type="ball-scale-multiple"
+        >
+            <p style="font-size: 20px; color: white">S'il vous plaît, attendez ...</p>
+        </ngx-spinner>
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button [routerLink]="'/main/administration/users'" class="mr-0 mr-sm-16" mat-icon-button>
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2" *ngIf="pageType ==='edit'">
+                        {{user?.employee?.firstname}} {{user?.employee?.lastname}}
+                    </div>
+                    <div class="h2" *ngIf="pageType ==='new'">
+                        Nouveau Utilisateur
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+            <button mat-raised-button (click)="save()"
+                    class="save-product-button"
+                    [disabled]="userForm.invalid || selectedRoleValues?.length <= 0"
+                    *ngIf="pageType ==='new'">
+                <span>Enregistrer</span>
+            </button>
+
+            <button mat-raised-button (click)="update()"
+                    class="save-product-button"
+                    [disabled]="userForm.invalid || selectedRoleValues?.length <= 0"
+                    *ngIf="pageType ==='edit'">
+                <span>Modifier</span>
+            </button>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <form name="userForm" [formGroup]="userForm" class="role w-100-p" fxLayout="column" fxFlex>
+
+                    <div class="tab-content p-24" fusePerfectScrollbar>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Nom d'Utilisateur</mat-label>
+                            <input matInput placeholder="Nom d'Utilisateur"
+                                   name="username"
+                                   formControlName="username"
+                                   required>
+                        </mat-form-field>
+
+                        <mat-form-field *ngIf="pageType ==='new'" appearance="outline" floatLabel="always"
+                                        class="w-100-p">
+                            <mat-label>Mot de Passe</mat-label>
+                            <input matInput placeholder="Mot de Passe" type="password"
+                                   name="password"
+                                   formControlName="password"
+                                   required>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" floatLabel="always"
+                                        class="w-100-p">
+                            <mat-label>Employé</mat-label>
+                            <mat-select formControlName="employee"
+                                        (selectionChange)="getEmployeeSelected($event.value)"
+                                        required>
+                                <mat-option *ngFor="let emp of employees"
+                                            [value]="emp.id">
+                                    {{emp?.firstname}} {{emp?.lastname}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <div>
+                            <p>Liste des profiles / roles</p>
+                            <mat-divider></mat-divider>
+                            <br/>
+                            <mat-checkbox (change)="selectAll($event)">Tout sélectionner</mat-checkbox>
+                            <mat-divider></mat-divider>
+                            <br/>
+                            <div class="checkbox-grid" formArrayName="roles"
+                                 *ngFor="let role of userForm.controls.roles['controls']; let i = index">
+                                <mat-checkbox (change)="itemCheek(i)" [(ngModel)]="roles[i].checked"
+                                              [formControlName]="i">{{roles[i].name}}</mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

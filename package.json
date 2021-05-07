@@ -1,5 +1,5 @@
 {
-    "name": "fuse",
+    "name": "erp",
     "version": "10.0.0",
     "license": "https://themeforest.net/licenses/terms/regular",
     "scripts": {
@@ -47,16 +47,19 @@
         "date-fns": "2.15.0",
         "file-saver": "2.0.2",
         "lodash": "4.17.19",
+        "mat-table-exporter": "9.0.2",
         "moment": "2.27.0",
         "ng2-charts": "2.3.2",
         "ngrx-store-freeze": "0.2.4",
         "ngx-color-picker": "9.1.0",
         "ngx-cookie-service": "3.1.2",
         "ngx-mask": "10.0.1",
+        "ngx-material-file-input": "2.1.1",
         "ngx-quill": "12.0.1",
         "ngx-spinner": "10.0.1",
         "ngx-toastr": "13.0.0",
         "perfect-scrollbar": "1.5.0",
+        "primeflex": "2.0.0",
         "primeicons": "4.0.0",
         "primeng": "10.0.3",
         "prismjs": "1.20.0",
@@ -64,7 +67,6 @@
         "rxjs": "6.6.0",
         "tslib": "2.0.0",
         "web-animations-js": "2.3.2",
-        "xlsx": "0.16.7",
         "zone.js": "0.10.3"
     },
     "devDependencies": {

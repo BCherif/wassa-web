@@ -25,7 +25,7 @@
             <!-- / APP TITLE -->
 
             <!-- SEARCH -->
-            <div class="search-wrapper  ml-sm-32">
+            <div class="search-wrapper ml-sm-32">
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon>search</mat-icon>
                     <input [formControl]="searchInput" placeholder="Rechercher un budget">
@@ -55,7 +55,21 @@
                 <ng-container matColumnDef="title">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>
                     <mat-cell *matCellDef="let budget">
-                        <p class="text-truncate">{{budget.title}}</p>
+                        <p class="text-truncate">{{budget?.title}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="startDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date de debut</mat-header-cell>
+                    <mat-cell *matCellDef="let budget">
+                        <p class="text-truncate">{{budget?.startDate | date: 'dd/MM/yyyy'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="endDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date de fin</mat-header-cell>
+                    <mat-cell *matCellDef="let budget">
+                        <p class="text-truncate">{{budget?.endDate | date: 'dd/MM/yyyy'}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -63,7 +77,7 @@
                 <ng-container matColumnDef="amount">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Montant</mat-header-cell>
                     <mat-cell *matCellDef="let budget">
-                        <p class="text-truncate">{{budget.amount | number:'':'fr-FR'}} F CFA</p>
+                        <p class="text-truncate">{{budget?.amount | number:'':'fr-FR'}} F CFA</p>
                     </mat-cell>
                 </ng-container>
 
@@ -75,18 +89,46 @@
                     </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="state">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Etat</mat-header-cell>
+                    <mat-cell *matCellDef="let budget">
+                        <div class="priorities" fxLayout="row" fxLayoutAlign="start center">
+                            <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                                <div class="priority-color"
+                                     [ngStyle]="{'background-color': budget.state==='DRAFT'?'#FF9800':budget.state==='DONE'?'#388E3C':budget.state==='VALIDATED'?'#b2fff1':budget.state==='CANCELLED'?'#8B0000':'#F44336'}"></div>
+                                <div class="priority-label">{{budgetState[budget.state]}}</div>
+                            </div>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
 
                 <!-- Buttons Column -->
                 <ng-container matColumnDef="buttons">
                     <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                     <mat-cell *matCellDef="let budget">
-                        <a matTooltip="Voir details"
-                           [routerLink]="'/main/budget-management/budget-details/details/'+budget.id">
-                            <mat-icon>remove_red_eye</mat-icon>
-                        </a>&nbsp;&nbsp;
-                        <!--<a>
-                            <mat-icon>edit</mat-icon>
-                        </a>-->
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="budgetOptionMenu" aria-label="more">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+                            <mat-menu #budgetOptionMenu="matMenu">
+                                <button *ngIf="budget.state === 'DRAFT'" mat-menu-item
+                                        [routerLink]="'/main/budget-management/budgets/'+budget?.id +'/'+budget.title">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Modifier</span>
+                                </button>
+                                <button mat-menu-item
+                                        [routerLink]="'/main/budget-management/budget-details/details/'+budget?.id">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                    <span>Voir détails</span>
+                                </button>
+                                <button *ngIf="budget.state === 'DRAFT'" (click)="validateDialog(budget)"
+                                        mat-menu-item>
+                                    <mat-icon>check</mat-icon>
+                                    <span>Valider</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </mat-cell>
                 </ng-container>
 
@@ -101,7 +143,6 @@
 
             <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements"
                            (page)="nextPage($event)">
-
             </mat-paginator>
 
         </div>

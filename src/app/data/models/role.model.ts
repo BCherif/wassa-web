@@ -3,8 +3,7 @@ import {Permission} from './permission.model';
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export class Role implements Deserializable{
-    id: number;
+export class Role implements Deserializable {
     name: string;
     description: string;
     checked: boolean;
@@ -12,8 +11,7 @@ export class Role implements Deserializable{
 
     constructor(role?) {
         role = role || {};
-        this.id = role.id;
-        this.name = role.name ;
+        this.name = role.name;
         this.checked = role.checked || false;
         this.description = role.description;
         this.permissions = role.permissions || [];
@@ -24,6 +22,6 @@ export class Role implements Deserializable{
     }
 
     equals(obj: any): boolean {
-        return this.id === obj.id;
+        return this.name === obj.name;
     }
 }

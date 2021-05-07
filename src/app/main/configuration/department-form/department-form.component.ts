@@ -1,5 +1,5 @@
 import {Component, Inject, ViewEncapsulation} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
@@ -45,7 +45,7 @@ export class DepartmentFormComponent {
             this.dialogTitle = 'Modifier un départment';
             this.department = _data.department;
         } else {
-            this.dialogTitle = 'Ajouter une départment';
+            this.dialogTitle = 'Ajouter un départment';
             this.department = new Department({});
         }
 
@@ -64,7 +64,7 @@ export class DepartmentFormComponent {
     createDepartmentForm(): FormGroup {
         return this._formBuilder.group({
             id: [this.department.id],
-            name: [this.department.name],
+            name: [this.department.name, Validators.required],
             description: [this.department.description]
         });
     }

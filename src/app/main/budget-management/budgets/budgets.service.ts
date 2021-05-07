@@ -61,20 +61,16 @@ export class BudgetsService implements Resolve<any> {
         return this._httpClient.post(this.serviceURL + '/all', page, this.httpOptions);
     }
 
-    save(budget: Budget): Observable<any> {
-        return this._httpClient.post(this.serviceURL, budget, this.httpOptions);
-    }
-
     getById(id: number) {
         return this._httpClient.get(this.serviceURL + '/' + id, this.httpOptions);
     }
 
-    update(budget: Budget): Observable<any> {
-        return this._httpClient.put(this.serviceURL, budget, this.httpOptions);
-    }
-
     findAll(): Observable<any> {
         return this._httpClient.get(this.serviceURL, this.httpOptions);
+    }
+
+    getLinesToValidate(id: number) {
+        return this._httpClient.get(this.serviceURL + '/lines-for-validate/' + id, this.httpOptions);
     }
 
 

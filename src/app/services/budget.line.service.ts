@@ -3,8 +3,6 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {TuwindiUtils} from '../utils/tuwindi-utils';
 import {PageBody} from '../utils/page-body';
-import {Observable} from 'rxjs';
-import * as FileSaver from 'file-saver';
 
 @Injectable({
     providedIn: 'root'
@@ -19,15 +17,20 @@ export class BudgetLineService {
         this.httpOptions = new TuwindiUtils().httpHeaders();
     }
 
-    findAllByBudgetId(page?: PageBody) {
-        return this.http.post(this.serviceURL + '/by-budget', page, this.httpOptions);
+    getAllByBudgetId(id: number) {
+        return this.http.get(this.serviceURL + '/budgetId/' + id, this.httpOptions);
     }
 
-    downloadCsv(id?: number): Observable<ArrayBuffer> {
-        return this.http.get(this.serviceURL + '/download/' + id, this.httpOptions);
+    getLines(id: number) {
+        return this.http.get(this.serviceURL + '/budgetLines/' + id, this.httpOptions);
     }
 
-    downloadFile(id: number) {
-        FileSaver.saveAs(this.serviceURL + '/download/' + id, 'FormatStandard.xlsx');
+    getById(id: number) {
+        return this.http.get(this.serviceURL + '/' + id, this.httpOptions);
     }
+
+    findAllElementByBudget(page?: PageBody) {
+        return this.http.post(this.serviceURL + '/per-page', page, this.httpOptions);
+    }
+
 }

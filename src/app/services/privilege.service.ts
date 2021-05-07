@@ -14,7 +14,7 @@ export class PrivilegeService {
 
     constructor(private http: HttpClient) {
         let tuwindiUtils = new TuwindiUtils();
-        this.serviceURL = environment.serviceUrl + '/privileges';
+        this.serviceURL = environment.serviceUrl + '/permissions';
         this.httpOptions = tuwindiUtils.httpHeaders();
     }
 

@@ -6,7 +6,6 @@ import {environment} from '../../../../environments/environment';
 import {TuwindiUtils} from '../../../utils/tuwindi-utils';
 import {PageBody} from '../../../utils/page-body';
 import {Unity} from '../../../data/models/unity.model';
-import {SearchBody} from '../../../utils/search-body';
 
 @Injectable({
     providedIn: 'root'
@@ -55,11 +54,15 @@ export class UnitsService implements Resolve<any> {
     }
 
     /**
-     * Get categories
+     * Get unities
      *
      */
     getUnits(page?: PageBody) {
         return this._httpClient.post(this.serviceURL + '/all', page, this.httpOptions);
+    }
+
+    findAll() {
+        return this._httpClient.get(this.serviceURL, this.httpOptions);
     }
 
     save(unity: Unity): Observable<any> {
@@ -74,12 +77,5 @@ export class UnitsService implements Resolve<any> {
         return this._httpClient.put(this.serviceURL, unity, this.httpOptions);
     }
 
-    findAll(): Observable<any> {
-        return this._httpClient.get(this.serviceURL, this.httpOptions);
-    }
-
-    getAllByType(searchBody: SearchBody): Observable<any> {
-        return this._httpClient.post(this.serviceURL + '/by-type', searchBody, this.httpOptions);
-    }
 
 }

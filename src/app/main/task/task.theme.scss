@@ -1,0 +1,97 @@
+@mixin task-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $is-dark: map-get($theme, is-dark);
+
+    // Task
+    task {
+
+        .center {
+
+            .header {
+
+                .search-wrapper {
+                    background: map-get($background, card);
+
+                    .sidebar-toggle {
+                        border-right-color: map-get($foreground, divider);
+                    }
+
+                    .search {
+
+                        input {
+                            background: map-get($background, card);
+                            color: map-get($foreground, text);
+                        }
+                    }
+                }
+            }
+
+            .content-card {
+
+                .toolbar {
+
+                    .toolbar-separator {
+                        background: map-get($foreground, divider);
+                    }
+                }
+            }
+        }
+    }
+
+    // Task list
+    task-list {
+        border-right-color: map-get($foreground, divider);
+    }
+
+    // Task list item
+    task-list-item {
+        border-bottom-color: map-get($foreground, divider);
+
+        .priorities {
+
+            .priority {
+                background-color: rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        &.completed {
+            @if ($is-dark) {
+                background: map-get($background, background);
+            } @else {
+                background: #EFEFEF;
+            }
+
+            .title,
+            .notes {
+                color: map-get($foreground, secondary-text);
+            }
+        }
+
+        &.selected {
+            @if ($is-dark) {
+                background: map-get($background, background);
+            } @else {
+                background: map-get($accent, 50);
+            }
+        }
+    }
+
+    // Task details
+    task-details {
+
+        .task-header {
+            background: map-get($background, background);
+            border-bottom-color: map-get($foreground, divider);
+        }
+
+        .task-content {
+
+            .priority {
+                background-color: rgba(0, 0, 0, 0.08);
+            }
+        }
+    }
+}

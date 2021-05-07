@@ -76,7 +76,19 @@ export class BudgetService implements Resolve<any> {
     }
 
     save(budgetSaveEntity: BudgetSaveEntity): Observable<any> {
-        return this._httpClient.post(this.serviceURL, budgetSaveEntity, this.httpOptions);
+        return this._httpClient.post(this.serviceURL + '/save', budgetSaveEntity, this.httpOptions);
+    }
+
+    update(id: number, budgetSaveEntity: BudgetSaveEntity): Observable<any> {
+        return this._httpClient.put(this.serviceURL + '/update/' + id, budgetSaveEntity, this.httpOptions);
+    }
+
+    getLinesByBudgetId(id: number): Observable<any> {
+        return this._httpClient.get(this.serviceURL + '/lines/' + id, this.httpOptions);
+    }
+
+    validate(budget: Budget): Observable<any> {
+        return this._httpClient.post(this.serviceURL + '/validate', budget, this.httpOptions);
     }
 
 }

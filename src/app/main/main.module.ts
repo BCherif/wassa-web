@@ -16,12 +16,20 @@ const routes = [
         loadChildren: () => import('./budget-management/budget-management.module').then(m => m.BudgetManagementModule)
     },
     {
-        path: 'staff_management',
-        loadChildren: () => import('./staff_management/staff-management.module').then(m => m.StaffManagementModule)
+        path: 'expenses-management',
+        loadChildren: () => import('./expenses-management/expenses-management.module').then(m => m.ExpensesManagementModule)
     },
     {
-        path: 'expense_management',
-        loadChildren: () => import('./expense_management/expense_management').then(m => m.ExpenseManagementModule)
+        path: 'staff-management',
+        loadChildren: () => import('./staff-management/staff-management.module').then(m => m.StaffManagementModule)
+    },
+    {
+        path: 'reporting',
+        loadChildren: () => import('./reporting/reporting.module').then(m => m.ReportingModule)
+    },
+    {
+        path: 'tasks',
+        loadChildren: () => import('./task/task.module').then(m => m.TaskModule)
     }
 ];
 

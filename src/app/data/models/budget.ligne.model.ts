@@ -1,55 +1,37 @@
 import {Injectable} from '@angular/core';
 import {Deserializable} from '../wrapper/deserializable.wrapper';
-import {Unity} from './unity.model';
 import {Budget} from './budget.model';
-import {Category} from './category.model';
-import {Section} from './section.model';
-import {Partner} from './partner.model';
 import {LINE_STATE} from '../enums/enums';
 
 @Injectable()
-export class BudgetLigne implements Deserializable {
+export class BudgetLine implements Deserializable {
     id: number;
     title: string;
-    description: string;
-    quantity1: number;
-    quantity2: number;
-    unitPrice: number;
-    total: number;
-    solde: number = 0;
-    finance: number = 0;
-    stayToFinance: number = 0;
-    realized: number = 0;
-    difference: number = 0;
+    amount: number;
+    forecast = false;
     state: LINE_STATE = LINE_STATE.PENDING;
-    unity1: Unity;
-    unity2: Unity;
     budget: Budget;
-    category: Category;
-    section: Section;
-    partners: Partner[];
+    code: string;
+    amountFinanced = 0;
+    stayToFinanced = 0;
+    numberOfSubLine = 0;
+    createDate: Date;
+    updateDate: Date;
 
-    constructor(budgetLigne?) {
-        budgetLigne = budgetLigne || {};
-        this.id = budgetLigne.id;
-        this.title = budgetLigne.title;
-        this.description = budgetLigne.description;
-        this.quantity1 = budgetLigne.quantity1;
-        this.quantity2 = budgetLigne.quantity2;
-        this.unitPrice = budgetLigne.unitPrice;
-        this.total = budgetLigne.total;
-        this.solde = budgetLigne.solde;
-        this.finance = budgetLigne.finance;
-        this.stayToFinance = budgetLigne.stayToFinance;
-        this.realized = budgetLigne.realized;
-        this.difference = budgetLigne.difference;
-        this.state = budgetLigne.state;
-        this.unity1 = budgetLigne.unity1;
-        this.unity2 = budgetLigne.unity2;
-        this.budget = budgetLigne.budget;
-        this.category = budgetLigne.category;
-        this.section = budgetLigne.section;
-        this.partners = budgetLigne.partners;
+    constructor(budgetLine?) {
+        budgetLine = budgetLine || {};
+        this.id = budgetLine.id;
+        this.title = budgetLine.title;
+        this.state = budgetLine.state;
+        this.code = budgetLine.code;
+        this.forecast = budgetLine.forecast;
+        this.amount = budgetLine.amount;
+        this.numberOfSubLine = budgetLine.numberOfSubLine;
+        this.amountFinanced = budgetLine.amountFinanced;
+        this.stayToFinanced = budgetLine.stayToFinanced;
+        this.budget = budgetLine.budget;
+        this.createDate = budgetLine.createDate;
+        this.updateDate = budgetLine.updateDate;
     }
 
     deserialize(input: any): this {

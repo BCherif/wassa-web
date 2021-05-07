@@ -23,20 +23,17 @@
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Titre</mat-label>
-                    <input name="title" formControlName="title" matInput required>
+                    <mat-label>Nom</mat-label>
+                    <input name="title" formControlName="name" matInput required>
                 </mat-form-field>
             </div>
 
             <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Type</mat-label>
-                    <mat-select formControlName="typeUnity"
-                                required>
-                        <mat-option *ngFor="let typeUnity of typeUnities"
-                                    [value]="typeUnity">{{type[typeUnity]}}
-                        </mat-option>
-                    </mat-select>
+                    <mat-label>Description</mat-label>
+                    <textarea name="description" formControlName="description"
+                              matInput type="text" max-rows="5">
+                    </textarea>
                 </mat-form-field>
             </div>
 

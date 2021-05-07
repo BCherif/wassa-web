@@ -15,6 +15,14 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatRippleModule} from '@angular/material/core';
+import {UserComponent} from './user/user.component';
+import {UserService} from './user/user.service';
+import {RoleComponent} from './role/role.component';
+import {RoleService} from './role/role.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDividerModule} from '@angular/material/divider';
 
 const routes: Routes = [
     {
@@ -25,18 +33,48 @@ const routes: Routes = [
         }
     },
     {
+        path: 'users/:id',
+        component: UserComponent,
+        resolve: {
+            data: UserService
+        }
+    },
+    {
+        path: 'users/:id/:name',
+        component: UserComponent,
+        resolve: {
+            data: UserService
+        }
+    },
+    {
         path: 'roles',
         component: RolesComponent,
         resolve: {
             data: RolesService
         }
-    }
-]
+    },
+    {
+        path: 'roles/by-name/:name',
+        component: RoleComponent,
+        resolve: {
+            data: RoleService
+        }
+    },
+    {
+        path: 'roles/:name',
+        component: RoleComponent,
+        resolve: {
+            data: RoleService
+        }
+    },
+];
 
 @NgModule({
     declarations: [
         RolesComponent,
-        UsersComponent
+        UsersComponent,
+        UserComponent,
+        RoleComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -53,11 +91,15 @@ const routes: Routes = [
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatRippleModule
+        MatRippleModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDividerModule
     ],
-    providers   : [],
+    providers: [],
     entryComponents: []
 })
-export class AdministrationModule{
+export class AdministrationModule {
 
 }

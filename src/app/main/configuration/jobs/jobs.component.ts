@@ -25,7 +25,7 @@ export class JobsComponent implements OnInit {
     jobs: Job[] | null;
     filteredJobs: Job[] = [];
 
-    displayedColumns = ['title', 'jobRole', 'description', 'jobDuty', 'buttons'];
+    displayedColumns = ['title', 'role', 'description', 'buttons'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

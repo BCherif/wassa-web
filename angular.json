@@ -18,7 +18,7 @@
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "aot": true,
-                        "outputPath": "dist/fuse",
+                        "outputPath": "dist/erp-web",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -29,9 +29,10 @@
                         ],
                         "styles": [
                             "src/styles.scss",
+                            "node_modules/primeicons/primeicons.css",
+                            "node_modules/primeflex/primeflex.css",
                             "node_modules/primeng/resources/themes/saga-blue/theme.css",
                             "node_modules/primeng/resources/primeng.min.css",
-                            "node_modules/primeicons/primeicons.css",
                             "./node_modules/quill/dist/quill.core.css",
                             "./node_modules/quill/dist/quill.snow.css"
                         ],

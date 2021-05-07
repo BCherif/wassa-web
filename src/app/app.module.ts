@@ -17,7 +17,6 @@ import localeFr from '@angular/common/locales/fr';
 
 import {AppComponent} from 'app/app.component';
 import {LayoutModule} from 'app/layout/layout.module';
-import {SampleModule} from 'app/main/sample/sample.module';
 import {ToastrModule} from 'ngx-toastr';
 import {AuthGuard} from './shared/guard/auth.guard';
 import {HashLocationStrategy, LocationStrategy, registerLocaleData} from '@angular/common';
@@ -25,10 +24,6 @@ import {HashLocationStrategy, LocationStrategy, registerLocaleData} from '@angul
 registerLocaleData(localeFr);
 
 const appRoutes: Routes = [
-    /* {
-         path: '**',
-         redirectTo: 'sample'
-     },*/
     {
         path: '',
         redirectTo: 'main/budget-management/budgets',
@@ -82,8 +77,7 @@ const appRoutes: Routes = [
 
 
         // App modules
-        LayoutModule,
-        SampleModule
+        LayoutModule
     ],
     providers: [
         {provide: LOCALE_ID, useValue: 'fr-FR'},

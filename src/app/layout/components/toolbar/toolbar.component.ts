@@ -8,6 +8,8 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
+import {TuwindiUtils} from '../../../utils/tuwindi-utils';
+import {User} from '../../../data/models/user.model';
 
 @Component({
     selector     : 'toolbar',
@@ -25,6 +27,8 @@ export class ToolbarComponent implements OnInit, OnDestroy
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
+
+    currentUser: User = new TuwindiUtils().getAppUser();
 
     // Private
     private _unsubscribeAll: Subject<any>;

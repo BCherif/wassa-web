@@ -6,20 +6,13 @@ import {takeUntil} from 'rxjs/operators';
 import {fuseAnimations} from '@fuse/animations';
 import {Budget} from '../../../data/models/budget.model';
 import {BudgetService} from './budget.service';
-import {Project} from '../../../data/models/project.model';
-import {ProjectsService} from '../../configuration/projects/projects.service';
-import {Category} from '../../../data/models/category.model';
-import {Unity} from '../../../data/models/unity.model';
-import {CategoriesService} from '../../configuration/categories/categories.service';
-import {UnitsService} from '../../configuration/units/units.service';
-import {TYPE_UNITY} from '../../../data/enums/enums';
-import {SearchBody} from '../../../utils/search-body';
-import {BudgetLigne} from '../../../data/models/budget.ligne.model';
-import {SectionBody} from '../../../utils/section-body';
 import {BudgetSaveEntity} from '../../../utils/budget-save-entity';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from '@angular/router';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {Project} from '../../../data/models/project.model';
+import {ProjectsService} from '../../configuration/projects/projects.service';
+import {LineUpdateEntity} from '../../../utils/line.update.entity';
 
 @Component({
     selector: 'budget-management-budget',
@@ -31,25 +24,12 @@ import {NgxSpinnerService} from 'ngx-spinner';
 export class BudgetComponent implements OnInit, OnDestroy {
     budget: Budget;
     projects: Project[];
-    categories: Category[];
-    unities1: Unity[];
-    unities2: Unity[];
     pageType: string;
     budgetForm: FormGroup;
-    types: any[];
-    type = TYPE_UNITY;
-    searchBody = new SearchBody();
-    myFormValueChanges$;
-    budgetLines: BudgetLigne[];
-    budgetLine = new BudgetLigne();
-    sections: any[];
-    category: Category;
-    unity1: Unity;
-    unity2: Unity;
+    budgetSaveEntity: BudgetSaveEntity;
+    minDate: Date;
     project: Project;
-
-    sectionBody = new SectionBody();
-    budgetSaveEntity = new BudgetSaveEntity();
+    lines: LineUpdateEntity[];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -59,8 +39,6 @@ export class BudgetComponent implements OnInit, OnDestroy {
      *
      * @param _budgetService
      * @param _projectsService
-     * @param _categoriesService
-     * @param _unitsService
      * @param _toast
      * @param _router
      * @param _spinnerService
@@ -69,15 +47,13 @@ export class BudgetComponent implements OnInit, OnDestroy {
     constructor(
         private _budgetService: BudgetService,
         private _projectsService: ProjectsService,
-        private _categoriesService: CategoriesService,
-        private _unitsService: UnitsService,
         private _toast: ToastrService,
         private _router: Router,
         private _spinnerService: NgxSpinnerService,
         private _formBuilder: FormBuilder
     ) {
         // Set the default
-        this.budget = new Budget();
+        this.budgetSaveEntity = new BudgetSaveEntity();
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -91,23 +67,23 @@ export class BudgetComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.types = Object.keys(this.type);
-        this.sections = [];
-        this.budgetLines = [];
         this.getAllProjects();
-        this.getAllUnities1();
-        this.getAllUnities2();
-        this.getAllCategories();
-        this.createBudgetForm();
         // Subscribe to update product on changes
         this._budgetService.onBudgetChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(budget => {
-
                 if (budget) {
-                    this.budget = new Budget(budget);
                     this.pageType = 'edit';
+                    this._budgetService.getLinesByBudgetId(budget.id).subscribe(data => {
+                        if (data['status'] === 'OK') {
+                            this.lines = data['response'];
+                            this.budget = new Budget(budget);
+                            this.onProjectSelected(this.budget.project.id);
+                            this.updateBudgetForm();
+                        }
+                    });
                 } else {
+                    this.createBudgetForm();
                     this.pageType = 'new';
                     this.budget = new Budget();
                 }
@@ -134,96 +110,80 @@ export class BudgetComponent implements OnInit, OnDestroy {
     createBudgetForm() {
         this.budgetForm = this._formBuilder.group({
             id: new FormControl(''),
-            title: new FormControl(this.budget?.title, Validators.required),
-            project: new FormControl(this.budget?.project, Validators.required),
-            sections: this._formBuilder.array([
-                this.initSection()
+            title: new FormControl('', Validators.required),
+            project: new FormControl('', Validators.required),
+            startDate: new FormControl('', Validators.required),
+            endDate: new FormControl('', Validators.required),
+            lines: this._formBuilder.array([
+                this.initLine()
             ])
         });
     }
 
+    updateBudgetForm() {
+        this.budgetForm = this._formBuilder.group({
+            id: new FormControl(this.budget.id),
+            title: new FormControl(this.budget.title, Validators.required),
+            project: new FormControl(this.budget.project.id, Validators.required),
+            startDate: new FormControl(this.budget.startDate, Validators.required),
+            endDate: new FormControl(this.budget.endDate, Validators.required),
+            lines: new FormArray(this.lines.map(item => new FormGroup({
+                id: new FormControl(item.id),
+                title: new FormControl(item.title, Validators.required),
+                code: new FormControl(item.code),
+                amount: new FormControl(item.amount, Validators.required)
+            })))
+        });
+    }
+
     /**
-     * Init section
+     * Init line
      */
 
-    initSection() {
+    initLine() {
         return new FormGroup({
-            name: new FormControl(''),
-            lines: new FormArray([
-                this.intLigne()
-            ])
+            id: new FormControl(''),
+            title: new FormControl('', Validators.required),
+            code: new FormControl(''),
+            amount: new FormControl('', Validators.required)
         });
-    }
-
-    /**
-     * Create form ligne
-     */
-    private intLigne() {
-        const numberPatern = '^[0-9.,]+$';
-        return this._formBuilder.group({
-            title: ['', Validators.required],
-            category: [this.category, Validators.required],
-            unity1: [this.unity1, Validators.required],
-            quantity1: [1, [Validators.required, Validators.pattern(numberPatern)]],
-            unity2: [this.unity2, Validators.required],
-            quantity2: [1, [Validators.required, Validators.pattern(numberPatern)]],
-            unitPrice: ['', [Validators.required, Validators.pattern(numberPatern)]],
-            total: [''],
-        });
-    }
-
-    /**
-     * Add new section row into form
-     */
-    addSection() {
-        const control = <FormArray> this.budgetForm.controls['sections'];
-        control.push(this.initSection());
     }
 
     /**
      * Add new line row into form
      */
-    addLine(j: number) {
-        const control = <FormArray> this.budgetForm.get('sections')['controls'][j].get('lines');
-        control.push(this.intLigne());
+    addLine() {
+        const control = <FormArray> this.budgetForm.controls['lines'];
+        control.push(this.initLine());
     }
 
     /**
-     * Remove section
+     * Remove Line
      */
-    removeSection(i) {
-        const control = <FormArray> this.budgetForm.controls['sections'];
+    removeLine(i) {
+        const control = <FormArray> this.budgetForm.controls['lines'];
         control.removeAt(i);
     }
 
-    /**
-     * Remove ligne row from form on click delete button
-     */
-    removeLigne(i, j) {
-        const control = <FormArray> this.budgetForm.get('sections')['controls'][i].get('lines');
-        control.removeAt(j);
+    addEvent(event) {
+        let selectedDate = new Date();
+        if (event) {
+            selectedDate = new Date(event.value);
+            this.minDate = new Date(selectedDate);
+        }
     }
+
 
     /**
      * This is one of the way how clear units fields.
      */
-    clearAllLignes() {
-        const control = <FormArray> this.budgetForm.controls['sections'];
+    clearAllLines() {
+        const control = <FormArray> this.budgetForm.controls['lines'];
         while (control.length) {
             control.removeAt(control.length - 1);
         }
         control.clearValidators();
-        control.push(this.initSection());
-    }
-
-    getSections(form) {
-        //console.log(form.get('sections').controls);
-        return form.controls.sections.controls;
-    }
-
-    getLignes(form) {
-        //console.log(form.controls.lines.controls);
-        return form.controls.lines.controls;
+        control.push(this.initLine());
     }
 
     getAllProjects() {
@@ -232,56 +192,12 @@ export class BudgetComponent implements OnInit, OnDestroy {
         }, error => console.log(error));
     }
 
-    getAllCategories() {
-        this._categoriesService.findAll().subscribe(data => {
-            this.categories = data['response'];
-        }, error => console.log(error));
-    }
-
-    getAllUnities1() {
-        this.searchBody.typeUnity = this.types[0];
-        this._unitsService.getAllByType(this.searchBody).subscribe(data => {
-            this.unities1 = data['response'];
-        }, error => console.log(error));
-    }
-
-    getAllUnities2() {
-        this.searchBody.typeUnity = this.types[1];
-        this._unitsService.getAllByType(this.searchBody).subscribe(data => {
-            this.unities2 = data['response'];
-        }, error => console.log(error));
-    }
-
-    calculateSubtotal(i) {
-        // initialize stream on lines
-        this.myFormValueChanges$ = this.budgetForm.get('sections')['controls'][i].get('lines').valueChanges;
-        // subscribe to the stream so listen to changes on lines
-        this.myFormValueChanges$.subscribe(lines => {
-            this.updateTotalLinePrice(i, lines);
-            this.getSubTotal(i);
-        });
-
-    }
-
-    getSubTotal(i): number {
-        const control = <FormArray> this.budgetForm.get('sections')['controls'][i].get('lines');
+    getAmountSum(): number {
+        const control = <FormArray> this.budgetForm.controls['lines'];
         let lines = control.value;
         return lines
-            .map(value => value.total)
+            .map(value => value.amount)
             .reduce((sum, current) => +sum + +current, 0);
-    }
-
-    /**
-     * Update prices as soon as something changed on lines group
-     */
-    private updateTotalLinePrice(i: number, lines: any) {
-        // get our sections group controll
-        const control = <FormArray> this.budgetForm.get('sections')['controls'][i].get('lines');
-        for (let l in lines) {
-            let totalUnitPrice = (lines[l].quantity1 * lines[l].quantity2 * lines[l].unitPrice);
-            // update total sum field on line and do not emit event myFormValueChanges$ in this case on lines
-            control.at(+l).get('total').setValue(totalUnitPrice, {onlySelf: false, emitEvent: false});
-        }
     }
 
     onProjectSelected(id: number) {
@@ -290,24 +206,41 @@ export class BudgetComponent implements OnInit, OnDestroy {
         }, error => console.log(error));
     }
 
-
     save() {
         this._spinnerService.show();
         this.budget = new Budget();
         this.budgetSaveEntity = new BudgetSaveEntity();
+        this.budget.id = this.budgetForm.get('id').value;
         this.budget.title = this.budgetForm.get('title').value;
+        this.budget.startDate = this.budgetForm.get('startDate').value;
+        this.budget.endDate = this.budgetForm.get('endDate').value;
         this.budget.project = this.project;
         this.budgetSaveEntity.budget = this.budget;
-        this.budgetSaveEntity.sections = this.budgetForm.get('sections').value;
-        this._budgetService.save(this.budgetSaveEntity).subscribe(data => {
-            if (data['status'] === 'OK') {
-                this._toast.success(data['message']);
-                this._router.navigateByUrl('/main/budget-management/budgets');
-                this._spinnerService.hide();
-            } else {
-                this._toast.error(data['message']);
-                this._spinnerService.hide();
-            }
-        });
+        this.budgetSaveEntity.lines = this.budgetForm.get('lines').value;
+        if (!this.budget.id) {
+            this._budgetService.save(this.budgetSaveEntity).subscribe(data => {
+                if (data['status'] === 'OK') {
+                    this._toast.success(data['message']);
+                    this._router.navigateByUrl('/main/budget-management/budgets');
+                    this._spinnerService.hide();
+                } else {
+                    this._toast.error(data['message']);
+                    this._spinnerService.hide();
+                }
+            });
+        } else {
+            this.budget.updateDate = new Date();
+            this._budgetService.update(this.budget.id, this.budgetSaveEntity).subscribe(data => {
+                if (data['status'] === 'OK') {
+                    this._toast.success(data['message']);
+                    this._router.navigateByUrl('/main/budget-management/budgets');
+                    this._spinnerService.hide();
+                } else {
+                    this._toast.error(data['message']);
+                    this._spinnerService.hide();
+                }
+            });
+
+        }
     }
 }

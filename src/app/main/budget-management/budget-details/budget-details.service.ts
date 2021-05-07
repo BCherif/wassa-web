@@ -67,4 +67,8 @@ export class BudgetDetailsService implements Resolve<any> {
                 }, reject);
         });
     }
+
+    getLinesState(id: number) {
+        return this._httpClient.get(this.serviceURL + '/lines-state/' + id, this.httpOptions);
+    }
 }

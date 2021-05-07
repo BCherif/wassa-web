@@ -5,7 +5,7 @@ import {Deserializable} from '../wrapper/deserializable.wrapper';
 export class Job implements Deserializable {
     id: number;
     title: string;
-    jobRole: string;
+    role: string;
     description: string;
     jobDuty: string;
 
@@ -13,9 +13,8 @@ export class Job implements Deserializable {
         job = job || {};
         this.id = job.id;
         this.title = job.title;
-        this.jobRole = job.jobRole;
+        this.role = job.role;
         this.description = job.description;
-        this.jobDuty = job.jobDuty;
     }
 
     deserialize(input: any): this {

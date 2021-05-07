@@ -1,9 +1,8 @@
 import {Component, Inject, ViewEncapsulation} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {Category} from '../../../data/models/category.model';
 import {ListResponseBody} from '../../../utils/list-response-body';
 import {Unity} from '../../../data/models/unity.model';
 import {UnitsService} from '../units/units.service';
@@ -69,8 +68,8 @@ export class UnityFormComponent {
     createUnityForm(): FormGroup {
         return this._formBuilder.group({
             id: [this.unity.id],
-            title: [this.unity.title],
-            typeUnity: [this.unity.typeUnity]
+            name: [this.unity.name, Validators.required],
+            description: [this.unity.description]
         });
     }
 

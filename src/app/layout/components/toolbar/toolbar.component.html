@@ -29,7 +29,10 @@
                     class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/profile.jpg">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>Baba MAIGA</span>
+                    <span *ngIf="!currentUser?.employee" class="username mr-12" fxHide fxShow.gt-sm>Super Admin</span>
+                    <span *ngIf="currentUser?.employee" class="username mr-12" fxHide fxShow.gt-sm>
+                        {{currentUser?.employee?.firstname}} {{currentUser?.employee?.lastname}}
+                    </span>
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
             </button>

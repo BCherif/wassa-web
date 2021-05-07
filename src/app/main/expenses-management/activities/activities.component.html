@@ -1,0 +1,150 @@
+<div class="page-layout carded fullwidth inner-scroll" id="activities">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent"
+             fxLayout="column" fxLayout.gt-sm="row"
+             fxLayoutAlign="center center" fxLayoutAlign.gt-sm="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-md-0"
+                 fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}" class="logo-icon s-32 mr-16">
+                    library_books
+                </mat-icon>
+                <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" class="logo-text h1">
+                    Demandes
+                </span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper  ml-sm-32">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input [formControl]="searchInput" placeholder="Rechercher une demande">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+            <button mat-raised-button
+                    [routerLink]="'/main/expenses-management/activities/new'"
+                    class="add-product-button fuse-white mt-24 mt-md-0">
+                <mat-icon>add</mat-icon>
+                <span>Nouvelle demande</span>
+            </button>
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-table #table
+                       [@animateStagger]="{value:'50'}" [dataSource]="filteredActivities"
+                       class="activities-table"
+                       fusePerfectScrollbar
+                       matSort>
+
+                <ng-container matColumnDef="title">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>
+                    <mat-cell *matCellDef="let activity">
+                        <p class="text-truncate">{{activity?.title}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="startDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date de debut</mat-header-cell>
+                    <mat-cell *matCellDef="let activity">
+                        <p class="text-truncate">{{activity?.startDate | date: 'dd/MM/yyyy'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="endDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Date de fin</mat-header-cell>
+                    <mat-cell *matCellDef="let activity">
+                        <p class="text-truncate">{{activity?.endDate | date: 'dd/MM/yyyy'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="createBy">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Envoyé par</mat-header-cell>
+                    <mat-cell *matCellDef="let activity">
+                        <p class="text-truncate">
+                            {{activity?.createBy?.employee?.firstname}}  {{activity?.createBy?.employee?.lastname}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="state">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Etat</mat-header-cell>
+                    <mat-cell *matCellDef="let activity">
+                        <div class="priorities" fxLayout="row" fxLayoutAlign="start center">
+                            <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                                <div class="priority-color"
+                                     [ngStyle]="{'background-color': activity?.state==='APPROVED'?'#00BCD4':activity?.state==='IN_VALIDATION'?'#009688':activity?.state==='TO_CONFIRM'?'#4CAF50':activity?.state==='REFUSE'?'#D0312D':'#00BCD4'}"></div>
+                                <div class="priority-label">{{activityState[activity?.state]}}</div>
+                            </div>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Buttons Column -->
+                <ng-container matColumnDef="buttons">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let activity">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <button mat-icon-button [matMenuTriggerFor]="activityOptionMenu" aria-label="more">
+                                <mat-icon class="secondary-text">more_vert</mat-icon>
+                            </button>
+                            <mat-menu #activityOptionMenu="matMenu">
+                                <button *ngIf="activity?.state ==='APPROVED'" mat-menu-item
+                                        [routerLink]="'/main/expenses-management/activities/'+activity.id+'/'+activity.title">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Modifier</span>
+                                </button>
+                                <button *ngIf="activity?.state ==='APPROVED'" mat-menu-item
+                                        [routerLink]="'/main/expenses-management/approved/'+activity.id">
+                                    <mat-icon>done_outline</mat-icon>
+                                    <span>Approuver</span>
+                                </button>
+                                <button *ngIf="activity?.state ==='IN_VALIDATION'" mat-menu-item
+                                        [routerLink]="'/main/expenses-management/validate/'+activity.id">
+                                    <mat-icon>check</mat-icon>
+                                    <span>Valider</span>
+                                </button>
+                                <button *ngIf="activity?.state ==='TO_CONFIRM' && activity?.pay" mat-menu-item
+                                        [routerLink]="'/main/expenses-management/disbursement/'+activity.id">
+                                    <mat-icon>assignment</mat-icon>
+                                    <span>Décaissement</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+                <mat-row *matRowDef="let activity; columns: displayedColumns;"
+                         class="activity" matRipple>
+                </mat-row>
+
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements"
+                           (page)="nextPage($event)">
+
+            </mat-paginator>
+
+        </div>
+
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

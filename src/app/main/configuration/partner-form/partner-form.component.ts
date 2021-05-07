@@ -46,7 +46,7 @@ export class PartnerFormComponent {
             this.dialogTitle = 'Modifier un partenaire';
             this.partner = _data.partner;
         } else {
-            this.dialogTitle = 'Ajouter une partenaire';
+            this.dialogTitle = 'Ajouter un partenaire';
             this.partner = new Partner({});
         }
 

@@ -102,7 +102,6 @@ const routes: Routes = [
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyD81ecsCj4yYpcXSLFcYU97PvRsE_X8Bx8'
         }),
-
         FuseSharedModule,
         FuseWidgetModule,
         MatCheckboxModule,

@@ -26,10 +26,6 @@ export class TuwindiUtils {
             _headers = _headers.set('enctype', 'multipart/form-data');
             _headers = _headers.set('authorization', 'Bearer ' + token);
         }
-        // let _headers = new HttpHeaders({
-        //     enctype: 'multipart/form-data',
-        //     Authorization: `${token}`
-        // });
         return {headers: _headers};
     }
 

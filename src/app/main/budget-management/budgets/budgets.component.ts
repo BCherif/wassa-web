@@ -8,9 +8,11 @@ import {fuseAnimations} from '@fuse/animations';
 import {FuseUtils} from '@fuse/utils';
 import {takeUntil} from 'rxjs/internal/operators';
 import {FormControl} from '@angular/forms';
-import {MatDialog} from '@angular/material/dialog';
 import {Budget} from '../../../data/models/budget.model';
 import {BudgetsService} from './budgets.service';
+import {BUDGET_STATE} from '../../../data/enums/enums';
+import {MatDialog} from '@angular/material/dialog';
+import {ValidateFormComponent} from '../validate-form/validate-form.component';
 
 @Component({
     selector: 'budget-management-budgets',
@@ -23,8 +25,9 @@ export class BudgetsComponent implements OnInit {
     totalElements: number;
     budgets: Budget[] | null;
     filteredBudgets: Budget[] = [];
+    budgetState = BUDGET_STATE;
 
-    displayedColumns = ['title', 'amount', 'project', 'buttons'];
+    displayedColumns = ['title', 'startDate', 'endDate', 'amount', 'project', 'state', 'buttons'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -42,7 +45,7 @@ export class BudgetsComponent implements OnInit {
 
     constructor(
         private _budgetsService: BudgetsService,
-        private _matDialog: MatDialog
+        public _matDialog: MatDialog
     ) {
         // Set the private defaults
         this.searchInput = new FormControl();
@@ -105,6 +108,15 @@ export class BudgetsComponent implements OnInit {
         this._budgetsService.pageBody.pageNumber = event.pageIndex;
         this._budgetsService.pageBody.pageSize = event.pageSize;
         this.getAll();
+    }
+
+    validateDialog(budget?: Budget) {
+        const dialogRef = this._matDialog.open(ValidateFormComponent, {
+            panelClass: 'validate-form-dialog',
+            data: {
+                budget: budget
+            }
+        });
     }
 
 }

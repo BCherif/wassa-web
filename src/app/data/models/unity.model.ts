@@ -1,18 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Deserializable} from '../wrapper/deserializable.wrapper';
-import {TYPE_UNITY} from '../enums/enums';
 
 @Injectable()
 export class Unity implements Deserializable {
     id: number;
-    title: string;
-    typeUnity: TYPE_UNITY;
+    name: string;
+    description: string;
 
     constructor(unity?) {
         unity = unity || {};
         this.id = unity.id;
-        this.title = unity.title;
-        this.typeUnity = unity.typeUnity;
+        this.name = unity.name;
+        this.description = unity.description;
     }
 
     deserialize(input: any): this {

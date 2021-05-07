@@ -66,8 +66,7 @@ export class JobFormComponent {
             id: [this.job.id],
             title: [this.job.title, Validators.required],
             description: [this.job.description],
-            jobRole: [this.job.jobRole],
-            jobDuty: [this.job.jobDuty],
+            role: [this.job.role, Validators.required]
         });
     }
 

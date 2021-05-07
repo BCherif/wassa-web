@@ -1,0 +1,131 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header accent p-24 pb-4">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            check_box
+        </mat-icon>
+        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tâches</span>
+    </div>
+
+    <div class="account" fxLayout="column"
+         [@animate]="{value:'*',params:{delay:'300ms'}}">
+        <div class="priority" fxLayout="row" fxLayoutAlign="start center"
+             [matMenuTriggerFor]="assignMenu" matTooltipPosition="above"
+             matTooltip="Cliquez pour changer la personne">
+            <mat-icon>person</mat-icon>
+            <div class="priority-label">Sélectionner un employé</div>
+            <div class="priority-label"
+                 *ngIf="selectedEmployee && selectedEmployee.id">{{selectedEmployee?.firstname}} {{selectedEmployee?.lastname}}</div>
+        </div>
+        <mat-menu #assignMenu="matMenu">
+            <button class="nav-item" mat-menu-item (click)="toggleOnSearch($event)">
+                <mat-icon>search</mat-icon>
+                <span>
+                    <input #searchUserInput matInput type="text" placeholder="Rechercher un employée"
+                           autocomplete="off"
+                           (input)="onListItemFiltering('employee', $event.target.value)"
+                           focused="'true'">
+                </span>
+            </button>
+            <button class="nav-item" mat-menu-item (click)="toggleEmployeeOnTask(null)">
+                <mat-icon class="nav-link-icon"></mat-icon>
+                <span>Tous les employées</span>
+            </button>
+            <button class="nav-item" mat-menu-item *ngFor="let employee of filteredEmployees"
+                    (click)="toggleEmployeeOnTask(employee)">
+                <mat-icon class="nav-link-icon">person</mat-icon>
+                <span>{{employee.firstname}} {{employee.lastname}}</span>
+            </button>
+        </mat-menu>
+
+    </div>
+    <br/>
+
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="content" fusePerfectScrollbar [@animate]="{value:'*',params:{y:'50px'}}">
+    <div class="p-24">
+        <button mat-raised-button
+                class="mat-accent add-task-button w-100-p"
+                (click)="newTask()"
+                aria-label="Ajouté une tâche">
+            <mat-icon>add</mat-icon>
+            Nouvelle tâche
+        </button>
+    </div>
+
+
+    <div class="nav material2">
+
+        <div class="nav-item">
+            <a class="nav-link" [matMenuTriggerFor]="customerMenu" matTooltipPosition="above"
+               matTooltip="Cliquez pour choisir le projet">
+                <mat-icon class="nav-link-icon">people</mat-icon>
+                <span *ngIf="!selectedProject || !selectedProject.id">Choisir projet</span>
+                <span *ngIf="selectedProject && selectedProject.id">{{selectedProject?.title}}</span>
+            </a>
+            <mat-menu #customerMenu="matMenu">
+                <button class="nav-item" mat-menu-item (click)="toggleOnSearch($event)">
+                    <mat-icon>search</mat-icon>
+                    <span>
+                    <input #searchCustomerInput matInput type="text"
+                           placeholder="Rechercher un projet"
+                           autocomplete="off"
+                           (input)="onListItemFiltering('project', $event.target.value)"
+                           focused="'true'">
+                </span>
+                </button>
+                <button class="nav-item" mat-menu-item (click)="toggleProjectOnTask(null)">
+                    <span>Tous les projets</span>
+                </button>
+                <button class="nav-item" mat-menu-item *ngFor="let project of filteredProjects"
+                        (click)="toggleProjectOnTask(project)">
+                    <mat-icon class="nav-link-icon">people</mat-icon>
+                    <span>{{project.title}}</span>
+                </button>
+            </mat-menu>
+        </div>
+        <br/>
+
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple [routerLink]="'/main/tasks/all'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">view_headline</mat-icon>
+                <span>Toutes les tâches</span>
+            </a>
+        </div>
+
+        <div class="nav-subheader">Filtre par etat</div>
+
+        <div class="nav-item" *ngFor="let state of states">
+            <a class="nav-link" matRipple [routerLink]="'/main/tasks/state/' + state"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon"
+                          [ngStyle]="{'color': state==='TODO'?'#0091EA': state==='IN_PROGRESS'?'#FF9800': state==='DONE'?'#388E3C':'#F44336'}"
+                >{{state === 'TODO' ? 'format_align_center' : state === 'IN_PROGRESS' ? 'call_missed_outgoing' : state === 'DONE' ? 'done' : 'block'}}
+                </mat-icon>
+                <span>{{stateTask[state]}}</span>
+            </a>
+        </div>
+
+        <div class="nav-subheader">Filtre par priorité</div>
+
+        <div class="nav-item" *ngFor="let priority of priorities">
+            <a class="nav-link" matRipple [routerLink]="'/main/tasks/priority/' + priority"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon"
+                          [ngStyle]="{'color':priority==='LOW'?'#B5B5B5': priority==='MEDIUM'?'#FF9800': priority==='HIGH'?'#F44336':'#F44336'}">
+                    label
+                </mat-icon>
+                <span>{{priorityTask[priority]}}</span>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

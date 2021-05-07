@@ -11,25 +11,31 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatRippleModule} from '@angular/material/core';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-
-import {NgxMaskModule, IConfig} from 'ngx-mask';
 import {BudgetsComponent} from './budgets/budgets.component';
 import {BudgetsService} from './budgets/budgets.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {BudgetComponent} from './budget/budget.component';
 import {BudgetService} from './budget/budget.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatInputModule} from '@angular/material/input';
+import {IConfig, NgxMaskModule} from 'ngx-mask';
 import {BudgetDetailsComponent} from './budget-details/budget-details.component';
 import {BudgetDetailsService} from './budget-details/budget-details.service';
 import {MatTabsModule} from '@angular/material/tabs';
-import {LinePartnerComponent} from './line-partner/line-partner.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FundingFormComponent} from './funding-form/funding-form.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatMenuModule} from '@angular/material/menu';
+import {AddSubLineFormComponent} from './add-sub-line-form/add-sub-line-form.component';
+import {LineDetailsComponent} from './line-details/line-details.component';
+import {LineDetailsService} from './line-details/line-details.service';
+import {MatBadgeModule} from '@angular/material/badge';
+import {AddForecastFormComponent} from './add-forecast-form/add-forecast-form.component';
+import {ValidateFormComponent} from './validate-form/validate-form.component';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -63,6 +69,13 @@ const routes: Routes = [
         resolve: {
             data: BudgetDetailsService
         }
+    },
+    {
+        path: 'line-details/:id',
+        component: LineDetailsComponent,
+        resolve: {
+            data: LineDetailsService
+        }
     }
 ];
 
@@ -71,7 +84,11 @@ const routes: Routes = [
         BudgetsComponent,
         BudgetComponent,
         BudgetDetailsComponent,
-        LinePartnerComponent
+        FundingFormComponent,
+        AddSubLineFormComponent,
+        LineDetailsComponent,
+        AddForecastFormComponent,
+        ValidateFormComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -89,19 +106,27 @@ const routes: Routes = [
         MatPaginatorModule,
         MatSortModule,
         MatRippleModule,
-        MatToolbarModule,
-        MatFormFieldModule,
-        MatDialogModule,
         MatTooltipModule,
-        MatInputModule,
+        MatFormFieldModule,
         MatSelectModule,
+        MatDatepickerModule,
         MatCardModule,
         MatDividerModule,
+        MatInputModule,
+        NgxMaskModule,
         MatTabsModule,
-        MatDatepickerModule
+        MatToolbarModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatBadgeModule
     ],
-    providers: [BudgetService],
-    entryComponents: [LinePartnerComponent]
+    providers: [],
+    entryComponents: [
+        FundingFormComponent,
+        AddSubLineFormComponent,
+        AddForecastFormComponent,
+        ValidateFormComponent
+    ]
 })
 export class BudgetManagementModule {
 

@@ -1,0 +1,97 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+
+    <mat-icon class="handle mr-16" ngxDragHandle fxFlex="0 1 auto" fxHide.xs>
+        drag_handle
+    </mat-icon>
+
+    <mat-checkbox [(ngModel)]="selected" (ngModelChange)="onSelectedChange()"
+                  class="mr-16" fxFlex="0 1 auto" (click)="$event.stopPropagation()">
+    </mat-checkbox>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+        <div class="info" fxFlex fxFlexLayout="column">
+
+            <div class="title">
+                {{task?.title}}
+            </div>
+
+            <div class="notes">
+                {{task?.description}}
+            </div>
+
+            <div class="priorities" fxLayout="row wrap" fxLayoutAlign="start center">
+
+                <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                    <div class="priority-color"
+                         [ngStyle]="{'background-color': task?.state==='TODO'?'#0091EA': task?.state==='IN_PROGRESS'?'#FF9800': task?.state==='DONE'?'#388E3C':'#F44336'}"></div>
+                    <div class="priority-label">{{stateTask[task?.state]}}</div>
+                </div>
+                <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                    <div class="priority-color"
+                         [ngStyle]="{'background-color': task?.priority==='LOW'?'#B5B5B5': task?.priority==='MEDIUM'?'#FF9800': task?.priority==='HIGH'?'#F44336':'#F44336'}"></div>
+                    <div class="priority-label">{{priorityTask[task?.priority]}}</div>
+                </div>
+
+            </div>
+
+            <div class="priorities" fxLayout="row wrap" fxLayoutAlign="start center">
+
+                <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                    <span *ngIf="task?.startDate">Début : {{task?.startDate | date: 'dd, MMMM yyyy'}}</span>
+                </div>
+                <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                    <span *ngIf="task?.endDate">Echéance : {{task?.endDate | date: 'dd, MMMM yyyy'}}</span>
+                </div>
+            </div>
+
+            <div *ngIf="task?.project" class="priorities" fxLayout="row wrap" fxLayoutAlign="start center">
+                <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon
+                        [ngStyle]="{'color': task?.priority==='LOW'?'#B5B5B5': task?.priority==='MEDIUM'?'#FF9800': task?.priority==='HIGH'?'#F44336':'#F44336'}">
+                        people
+                    </mat-icon>
+                    <div class="priority-label">{{task?.project?.title}}</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="actions" fxLayout="column" fxLayoutAlign="center center">
+
+            <div class="priorities" fxLayout="row wrap" fxLayoutAlign="start center">
+                <div class="priority" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>person</mat-icon>
+                    <span
+                        *ngIf="task?.endDate">Assigné à : {{task?.employee?.firstname}} {{task?.employee?.lastname}}</span>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+
+                <button mat-icon-button aria-label="" fxHide.xs>
+                    <mat-icon class="red-fg" *ngIf="task?.priority=='URGENT' || task?.priority=='HIGH'">error</mat-icon>
+                    <mat-icon class="secondary-text" *ngIf="task?.priority!='URGENT' && task?.priority!='HIGH'"></mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation()"
+                        fxHide.xs>
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="toggle important" (click)="deleteTask($event)">
+                        <ng-container>
+                            <mat-icon>delete</mat-icon>
+                            <span>Supprimer</span>
+                        </ng-container>
+                    </button>
+
+                </mat-menu>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

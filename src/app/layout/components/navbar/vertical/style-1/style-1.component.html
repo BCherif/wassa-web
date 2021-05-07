@@ -26,8 +26,12 @@
 
     <div class="user" fxLayout="column" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
 
-        <div class="h3 username">Baba MAIGA</div>
-        <div class="h5 email hint-text mt-8">bs.maiga@gmail.com</div>
+        <div *ngIf="!currentUser?.employee" class="h3 username">Super Admin</div>
+        <div *ngIf="currentUser?.employee" class="h3 username">
+            {{currentUser?.employee?.firstname}} {{currentUser?.employee?.lastname}}
+        </div>
+        <div *ngIf="!currentUser?.employee" class="h5 email hint-text mt-8">kibaru@tuwindi.org</div>
+        <div *ngIf="currentUser?.employee" class="h5 email hint-text mt-8">{{currentUser?.employee?.email}}</div>
         <div class="avatar-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground">
             <img class="avatar" src="assets/images/avatars/profile.jpg">
         </div>

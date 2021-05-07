@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.authBody).subscribe(ret => {
             if (ret['status'] === 'OK') {
                 this.toastr.success(ret['message']);
-                localStorage.setItem('app-token', btoa(JSON.stringify(ret['response'])));
+                localStorage.setItem('app-token', btoa(unescape(encodeURIComponent(JSON.stringify(ret['response'])))));
                 localStorage.setItem('isLoggedin', 'true');
 
                 this.router.navigateByUrl('/main/budget-management/budgets').then(r => {

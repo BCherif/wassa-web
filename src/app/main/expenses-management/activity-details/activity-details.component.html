@@ -1,0 +1,168 @@
+<div id="activity-details" class="page-layout carded fullwidth inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="row" fxLayoutAlign="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/main/expenses-management/activities'">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+
+                <div fxLayout="column" fxLayoutAlign="start start"
+                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <div class="h2">
+                        {{activity?.title}}
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <!-- CONTENT -->
+            <div class="content">
+                <mat-tab-group>
+                    <mat-tab label="Lignes de dépenses">
+                        <div class="products tab-content p-24" fusePerfectScrollbar>
+                            <table class="simple">
+                                <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Ligne</th>
+                                    <th>Unité</th>
+                                    <th>Quantité</th>
+                                    <th>P.U</th>
+                                    <th>Montant</th>
+                                    <th>Etat</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="product-row"
+                                    *ngFor="let expense of expenses">
+                                    <td>
+                                        {{expense?.title}}
+                                    </td>
+                                    <td>
+                                        {{expense?.budgetLine?.title}}
+                                    </td>
+                                    <td>
+                                        {{expense?.unity?.name}}
+                                    </td>
+                                    <td>
+                                        {{expense?.quantity}}
+                                    </td>
+                                    <td>
+                                        {{expense?.unitPrice | number:'':'fr-FR'}} F CFA
+                                    </td>
+                                    <td>
+                                        {{expense?.amount | number:'':'fr-FR'}} F CFA
+                                    </td>
+                                    <td>
+                                        <span class="status h6 p-4"
+                                              [ngStyle]="{'background-color': expense.state==='PENDING'?'#ffa500':expense.state==='VALIDATE'?'#4CAF50':'#ffa500'}">
+                                             {{expenseState[expense?.state]}}
+                                         </span>
+                                    </td>
+                                    <td>
+                                        <button *ngIf="expense.state==='PENDING'" (click)="showUploadDialog(expense)"
+                                                mat-icon-button class="mr-0 mr-sm-16">
+                                            <mat-icon>assignment</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Details de la demande">
+                        <div class="tab-content p-24" fusePerfectScrollbar fxLayout="column">
+                            <form name="activityForm" [formGroup]="activityForm" class="product w-100-p"
+                                  fxLayout="column"
+                                  fxFlex>
+                                <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-form-field appearance="outline" class="pr-4" floatLabel="always"
+                                                    fxFlex="50">
+                                        <mat-label>Titre</mat-label>
+                                        <input matInput name="title" formControlName="title"
+                                               required>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="px-4" floatLabel="always"
+                                                    fxFlex="50">
+                                        <mat-label>Budget</mat-label>
+                                        <mat-select formControlName="budget" required>
+                                            <mat-option *ngFor="let budget of budgets"
+                                                        [value]="budget.id">
+                                                {{budget?.title}} / {{budget?.project?.title}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-form-field appearance="outline" class="pr-4" fxFlex="50">
+                                        <mat-label>Date de debut</mat-label>
+                                        <input [matDatepicker]="startDatePicker"
+                                               formControlName="startDate" matInput name="startDate" required>
+                                        <mat-datepicker-toggle [for]="startDatePicker"
+                                                               matSuffix></mat-datepicker-toggle>
+                                        <mat-datepicker #startDatePicker></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" class="pr-4" fxFlex="50">
+                                        <mat-label>Date de fin</mat-label>
+                                        <input [matDatepicker]="endDatePicker"
+                                               formControlName="endDate" matInput name="endDate">
+                                        <mat-datepicker-toggle [for]="endDatePicker"
+                                                               matSuffix></mat-datepicker-toggle>
+                                        <mat-datepicker #endDatePicker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
+
+<!--========================= UPLOAD DIALOG ==========================-->
+<p-dialog header="Chargement de la facture" class="modal-upload" [(visible)]="uploadDialogVisibility"
+          [responsive]="true" showEffect="fade" draggable="true" [modal]="true" [resizable]="false">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="expense">
+        <div class="uploadDialogDiv">
+            <input type="file" name="file" (change)="loadFiles($event)" class="inputfile" id="file"
+                   multiple/>
+            <label for="file"> Selectionner le fichier </label> <br/><br/>
+            <b>{{fileNames}}</b>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix" style="text-align :center;">
+            <button mat-raised-button class="btn-refresh" (click)="closeUploadDialog()" matTooltip="Annuler">
+                Annuler <i class="material-icons">cancel</i>
+            </button>
+            &nbsp;
+            <button mat-raised-button color="primary" (click)="validate()" matTooltip="Valider">
+                Charger <i class="material-icons">cloud_upload</i>
+            </button>
+        </div>
+    </p-footer>
+</p-dialog>
+

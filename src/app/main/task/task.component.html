@@ -1,0 +1,108 @@
+<div id="task" class="page-layout carded left-sidebar inner-scroll">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="task-main-sidebar" position="left" lockedOpen="gt-md">
+        <task-main-sidebar></task-main-sidebar>
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
+                        (click)="toggleSidebar('task-main-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="secondary-text">search</mat-icon>
+                    <input [formControl]="searchInput" placeholder="Rechercher une tâche ..." fxFlex>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card" [ngClass]="{'current-task-selected':currentTask}">
+
+            <!-- CONTENT TOOLBAR -->
+            <div class="toolbar px-24 py-8">
+
+                <div class="task-selection" fxFlex="row" fxLayoutAlign="start center">
+
+                    <mat-checkbox (click)="toggleSelectAll()" [checked]="hasSelectedTasks"
+                                  [indeterminate]="isIndeterminate"></mat-checkbox>
+
+                    <div class="toolbar-separator" *ngIf="hasSelectedTasks"></div>
+
+                    <div class="priorities mb-24" fxFlexFill fxLayout="row wrap" *ngIf="hasSelectedTasks">
+
+                        <div class="priority" fxLayout="row" fxLayoutAlign="center center"
+                             [matMenuTriggerFor]="stateMenu">
+                            <mat-icon class="secondary-text">label</mat-icon>
+                            <span>Changer l'état</span>
+                        </div>
+                        <mat-menu #stateMenu="matMenu">
+                            <button mat-menu-item *ngFor="let state of states"
+                                    (click)="toggleStateOnSelectedTasks(state)"
+                                    [ngStyle]="{'color': state==='TODO'?'#0091EA': state==='IN_PROGRESS'?'#FF9800': state==='DONE'?'#388E3C':'#F44336'}">
+                                <mat-icon class="nav-link-icon">
+                                    {{state === 'TODO' ? 'format_align_center' : state === 'IN_PROGRESS' ? 'call_missed_outgoing' : state === 'DONE' ? 'done' : 'block'}}
+                                </mat-icon>
+                                {{stateTask[state]}}
+                            </button>
+                        </mat-menu>
+
+                        <div class="priority" fxLayout="row" fxLayoutAlign="center center"
+                             [matMenuTriggerFor]="priorityMenu">
+                            <mat-icon class="secondary-text">label</mat-icon>
+                            <span>Changer la priorité</span>
+                        </div>
+                        <mat-menu #priorityMenu="matMenu">
+                            <button mat-menu-item *ngFor="let priority of priorities"
+                                    (click)="togglePriorityOnSelectedTasks(priority)">
+                                <mat-icon class="nav-link-icon"
+                                          [ngStyle]="{'color':priority==='LOW'?'#B5B5B5': priority==='MEDIUM'?'#FF9800': priority==='HIGH'?'#F44336':'#F44336'}">
+                                    label
+                                </mat-icon>
+                                {{priorityTask[priority]}}
+                            </button>
+                        </mat-menu>
+                    </div>
+
+                </div>
+
+                <div *ngIf="currentTask" fxHide.gt-lg>
+                    <button mat-icon-button (click)="deselectCurrentTask()">
+                        <mat-icon class="secondary-text">arrow_back</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content" fxFlexAlign="row">
+                <task-list fusePerfectScrollbar fxFlex></task-list>
+                <task-details fusePerfectScrollbar fxFlex></task-details>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

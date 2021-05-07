@@ -59,10 +59,10 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="jobRole">
+                <ng-container matColumnDef="role">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Rôle</mat-header-cell>
                     <mat-cell *matCellDef="let job">
-                        <p class="text-truncate">{{job?.jobRole}}</p>
+                        <p class="text-truncate">{{job?.role}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -70,13 +70,6 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
                     <mat-cell *matCellDef="let job">
                         <p class="text-truncate">{{job?.description}}</p>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="jobDuty">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Tâches</mat-header-cell>
-                    <mat-cell *matCellDef="let job">
-                        <p class="text-truncate">{{job?.jobDuty}}</p>
                     </mat-cell>
                 </ng-container>
 

@@ -52,17 +52,10 @@
                        matSort>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="title">
+                <ng-container matColumnDef="name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Titre</mat-header-cell>
                     <mat-cell *matCellDef="let unity">
-                        <p class="text-truncate">{{unity.title}}</p>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="type">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
-                    <mat-cell *matCellDef="let unity">
-                        <p class="text-truncate">{{type[unity.typeUnity]}}</p>
+                        <p class="text-truncate">{{unity.name}}</p>
                     </mat-cell>
                 </ng-container>
 

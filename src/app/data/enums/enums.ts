@@ -15,11 +15,24 @@ export enum METHOD_OF_PAYMENT {
     CASH = 'Espèce'
 }
 
-export enum DEMAND_STATE {
+export enum BUDGET_STATE {
+    DRAFT = 'Brouillon',
+    DONE = 'Terminé',
+    VALIDATED = 'Validé',
+    CANCELLED = 'Annulé'
+}
+
+export enum ACTIVITY_STATE {
     APPROVED = 'A approuver',
     IN_VALIDATION = 'En validation',
     TO_CONFIRM = 'Confirmer',
-    REFUSE = 'Réfuser'
+    REFUSE = 'Réfuser',
+    CLOSE = 'Clôturer'
+}
+
+export enum EXPENSE_STATE {
+    PENDING = 'En attente',
+    VALIDATE = 'Valider'
 }
 
 export enum SPEND_STATE {
@@ -27,4 +40,18 @@ export enum SPEND_STATE {
     APPROVED = 'Approuvé',
     AWAITING_VALIDATION = 'En attente de validation',
     VALIDATION = 'Validé'
+}
+
+export enum TASK_PRIORITY {
+    LOW = 'Faible',
+    MEDIUM = 'Moyenne',
+    HIGH = 'Haute',
+    URGENT = 'Urgente'
+}
+
+export enum TASK_STATE {
+    TODO = 'Non commence',
+    IN_PROGRESS = 'Commence',
+    DONE = 'Termine',
+    PENDING = 'En attente',
 }

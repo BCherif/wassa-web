@@ -11,7 +11,6 @@ import {FormControl} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {Unity} from '../../../data/models/unity.model';
 import {UnitsService} from './units.service';
-import {TYPE_UNITY} from '../../../data/enums/enums';
 import {UnityFormComponent} from '../unity-form/unity-form.component';
 
 @Component({
@@ -26,9 +25,7 @@ export class UnitsComponent implements OnInit {
     units: Unity[] | null;
     filteredUnits: Unity[] = [];
 
-    type = TYPE_UNITY;
-
-    displayedColumns = ['title', 'type', 'description', 'buttons'];
+    displayedColumns = ['name', 'description', 'buttons'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

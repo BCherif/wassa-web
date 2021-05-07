@@ -392,6 +392,41 @@
         table {
             table-layout: fixed;
         }
+
+        .priorities {
+
+            .priority {
+                background-color: rgba(0, 0, 0, 0.08);
+                font-size: 11px;
+                border-radius: 2px;
+                margin: 8px 4px 0 0;
+                padding: 3px 8px;
+
+                .priority-color {
+                    width: 13px;
+                    height: 13px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                }
+
+                .priority-color-2 {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                }
+
+                .priority-label {
+                    font-weight: bold;
+                    font-size: 13px;
+                }
+
+                .priority-label-amount {
+                    font-weight: bold;
+                    font-size: 15px;
+                }
+            }
+        }
     }
 
 }

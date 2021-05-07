@@ -18,6 +18,7 @@ export class User implements Deserializable {
 
     constructor(user?) {
         user = user || {};
+        this.id = user?.id;
         this.username = user?.username;
         this.enabled = user?.enabled;
         this.password = user?.password;

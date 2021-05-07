@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {Category} from '../../../data/models/category.model';
 import {ListResponseBody} from '../../../utils/list-response-body';
 import {Project} from '../../../data/models/project.model';
 import {ProjectsService} from '../projects/projects.service';
@@ -43,10 +42,10 @@ export class ProjectFormComponent {
         this.action = _data.action;
 
         if (this.action === 'edit') {
-            this.dialogTitle = 'Modifier une projet';
+            this.dialogTitle = 'Modifier un projet';
             this.project = _data.project;
         } else {
-            this.dialogTitle = 'Ajouter une projet';
+            this.dialogTitle = 'Ajouter un projet';
             this.project = new Project({});
         }
 
