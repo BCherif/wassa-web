@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 import {PageBody} from '../utils/page-body';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class BudgetLineService {
 
     constructor(private http: HttpClient) {
         this.serviceURL = environment.serviceUrl + '/budget-lines';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
     }
 
     getAllByBudgetId(id: number) {

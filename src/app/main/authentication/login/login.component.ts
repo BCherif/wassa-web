@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        document.title = 'ERP | Authentification';
+        document.title = 'WASSA | Authentification';
 
         localStorage.removeItem('app-token');
         localStorage.removeItem('isLoggedin');
@@ -84,12 +84,12 @@ export class LoginComponent implements OnInit {
         this.authBody.username = this.loginForm.value.username;
         this.authBody.password = this.loginForm.value.password;
         this.authService.login(this.authBody).subscribe(ret => {
-            if (ret['status'] === 'OK') {
+            if (ret['ok'] === true) {
                 this.toastr.success(ret['message']);
-                localStorage.setItem('app-token', btoa(unescape(encodeURIComponent(JSON.stringify(ret['response'])))));
+                localStorage.setItem('app-token', btoa(unescape(encodeURIComponent(JSON.stringify(ret['data'])))));
                 localStorage.setItem('isLoggedin', 'true');
 
-                this.router.navigateByUrl('/main/budget-management/budgets').then(r => {
+                this.router.navigateByUrl('/main/wassa-management/nature-request').then(r => {
                     if (r) {
                         this._spinnerService.hide();
                     } else {

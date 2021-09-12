@@ -26,7 +26,7 @@ registerLocaleData(localeFr);
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: 'main/budget-management/budgets',
+        redirectTo: 'main/wassa-management/nature-request',
         pathMatch: 'full'
     },
     {

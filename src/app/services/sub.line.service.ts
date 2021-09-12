@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 import {Observable} from 'rxjs';
 import {SubLineSaveEntity} from '../utils/sub-line-save-entity';
 
@@ -15,7 +15,7 @@ export class SubLineService {
 
     constructor(private _httpClient: HttpClient) {
         this.serviceURL = environment.serviceUrl + '/sub-lines';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
     }
 
     save(subLineSaveEntity: SubLineSaveEntity): Observable<any> {

@@ -4,7 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {Role} from '../../../data/models/role.model';
-import {TuwindiUtils} from '../../../utils/tuwindi-utils';
+import {WassaUtils} from '../../../utils/wassa-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +24,7 @@ export class RolesService implements Resolve<any> {
         private _httpClient: HttpClient
     ) {
         this.serviceURL = environment.serviceUrl + '/roles';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
         // Set the defaults
         this.onRolesChanged = new BehaviorSubject({});
     }
@@ -59,19 +59,19 @@ export class RolesService implements Resolve<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(this.serviceURL, this.httpOptions)
                 .subscribe((res: any) => {
-                    this.roles = res['response'];
+                    this.roles = res['data'];
                     this.onRolesChanged.next(this.roles);
-                    resolve(res['response']);
+                    resolve(res['data']);
                 }, reject);
         });
     }
 
     save(role: Role): Observable<any> {
-        return this._httpClient.post(this.serviceURL + '/save', role, this.httpOptions);
+        return this._httpClient.post(this.serviceURL, role, this.httpOptions);
     }
 
     update(role: Role): Observable<any> {
-        return this._httpClient.put(this.serviceURL + '/update', role, this.httpOptions);
+        return this._httpClient.put(this.serviceURL, role, this.httpOptions);
     }
 
     findAll(): Observable<any> {

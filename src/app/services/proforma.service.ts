@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 import {Observable} from 'rxjs';
 import {Proforma} from '../data/models/proforma.model';
 
@@ -16,8 +16,8 @@ export class ProformaService {
 
     constructor(private _httpClient: HttpClient) {
         this.serviceURL = environment.serviceUrl + '/proformas';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
-        this.uploadOption = new TuwindiUtils().uploadOption();
+        this.httpOptions = new WassaUtils().httpHeaders();
+        this.uploadOption = new WassaUtils().uploadOption();
     }
 
     /**

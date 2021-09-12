@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     hmr: false,
     // serviceUrl: 'http://192.168.0.235:8080/erp-service/api',
-    serviceUrl: 'http://localhost:8080/erp-service/api',
+    serviceUrl: 'http://localhost:8080/wassa',
     authTitle: 'AUTHENTIFICATION',
     errorMessage: 'Une erreur est survenue',
     errorNetworkMessage: 'Echec de connexion au serveur',

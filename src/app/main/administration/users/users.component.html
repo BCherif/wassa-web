@@ -51,27 +51,27 @@
                        matSort>
 
                 <!-- ID Column -->
-                <ng-container matColumnDef="username">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+                <ng-container matColumnDef="fullName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nom et Prénom</mat-header-cell>
                     <mat-cell *matCellDef="let user">
-                        <p class="text-truncate">{{user.username}}</p>
+                        <p class="text-truncate">{{user.fullName}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+                    <mat-cell *matCellDef="let user">
+                        <p class="text-truncate">{{user.email}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Reference Column -->
-                <!-- <ng-container matColumnDef="firstname">
-                     <mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</mat-header-cell>
-                     <mat-cell *matCellDef="let user">
-                         <p class="text-truncate">{{user.firstname}}</p>
-                     </mat-cell>
-                 </ng-container>
-
-                 <ng-container matColumnDef="email">
-                     <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                     <mat-cell *matCellDef="let user">
-                         <p class="text-truncate">{{user.email}}</p>
-                     </mat-cell>
-                 </ng-container>-->
+                <ng-container matColumnDef="phone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</mat-header-cell>
+                    <mat-cell *matCellDef="let user">
+                        <p class="text-truncate">{{user.phone}}</p>
+                    </mat-cell>
+                </ng-container>
 
                 <!-- Buttons Column -->
                 <ng-container matColumnDef="buttons">

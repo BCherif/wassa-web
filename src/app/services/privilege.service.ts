@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +13,7 @@ export class PrivilegeService {
     readonly httpOptions: any;
 
     constructor(private http: HttpClient) {
-        let tuwindiUtils = new TuwindiUtils();
+        let tuwindiUtils = new WassaUtils();
         this.serviceURL = environment.serviceUrl + '/permissions';
         this.httpOptions = tuwindiUtils.httpHeaders();
     }

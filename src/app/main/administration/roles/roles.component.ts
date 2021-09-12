@@ -19,7 +19,7 @@ import {RolesService} from './roles.service';
 })
 export class RolesComponent implements OnInit {
     dataSource: FilesDataSource | null;
-    displayedColumns = ['name', 'description','buttons'];
+    displayedColumns = ['name', 'description', 'buttons'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;

@@ -13,8 +13,6 @@ import {Role} from '../../../data/models/role.model';
 import {environment} from '../../../../environments/environment';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {Employee} from '../../../data/models/employee.model';
-import {EmployeesService} from '../../staff-management/employees/employees.service';
 
 @Component({
     selector: 'administration-user',
@@ -30,8 +28,6 @@ export class UserComponent implements OnInit, OnDestroy {
     roleSelected: Role;
     roles: Role[] = [];
     selectedRoleValues: Role[] = [];
-    employees: Employee[];
-    employee: Employee;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -44,7 +40,6 @@ export class UserComponent implements OnInit, OnDestroy {
      * @param _rolesService
      * @param _router
      * @param _toastrService
-     * @param _employeesService
      * @param _spinnerService
      */
     constructor(
@@ -53,7 +48,6 @@ export class UserComponent implements OnInit, OnDestroy {
         private _rolesService: RolesService,
         private _router: Router,
         private _toastrService: ToastrService,
-        private _employeesService: EmployeesService,
         private _spinnerService: NgxSpinnerService
     ) {
         // Set the default
@@ -68,13 +62,12 @@ export class UserComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.findAllRoles();
-        this.findAllEmployee();
         // Subscribe to update product on changes
         this._userService.onUserChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(user => {
                 if (user) {
-                    this.user = new User(user);
+                    this.user = user;
                     this.pageType = 'edit';
                     this.updateUserForm();
                 } else {
@@ -108,10 +101,13 @@ export class UserComponent implements OnInit, OnDestroy {
 
     createUserForm() {
         this.userForm = this._formBuilder.group({
-            id: [this.user.id],
+            id: [''],
+            lastname: ['', Validators.required],
+            firstname: ['', Validators.required],
             username: ['', Validators.required],
             password: ['', Validators.required],
-            employee: ['', Validators.required],
+            phone: [''],
+            email: [''],
             roles: new FormArray([])
         });
         this.addCheckboxes();
@@ -126,8 +122,12 @@ export class UserComponent implements OnInit, OnDestroy {
     updateUserForm() {
         this.userForm = this._formBuilder.group({
             id: [this.user.id],
+            lastname: [this.user.lastName, Validators.required],
+            firstname: [this.user.firstName, Validators.required],
             username: [this.user.username, Validators.required],
-            employee: [this.user?.employee?.id, Validators.required],
+            password: ['', Validators.required],
+            phone: [this.user.phone, Validators.required],
+            email: [this.user.email, Validators.required],
             roles: new FormArray([])
         });
         this.addCheckboxes();
@@ -136,25 +136,9 @@ export class UserComponent implements OnInit, OnDestroy {
     findAllRoles() {
         this.selectedRoleValues = [];
         this._rolesService.findAll().subscribe(value => {
-            this.roles = value['response'];
+            this.roles = value['data'];
             this.addCheckboxes();
         }, error => console.log(error));
-    }
-
-    findAllEmployee() {
-        this._employeesService.findAll().subscribe(value => {
-            this.employees = value['response'];
-        });
-    }
-
-    getEmployeeById(id: number) {
-        this._employeesService.getById(id).subscribe(value => {
-            this.employee = value['response'];
-        });
-    }
-
-    getEmployeeSelected(value) {
-        this.getEmployeeById(value);
     }
 
     private addCheckboxes() {
@@ -207,31 +191,31 @@ export class UserComponent implements OnInit, OnDestroy {
     save(): void {
         this._spinnerService.show();
         this.user = this.userForm.getRawValue();
-        this.user.employee = this.employee;
+        this.user.fullName = this.userForm.get('firstname').value + '' + this.userForm.get('lastname').value;
         this.user.roles = this.selectedRoleValues;
-        this._userService.save(this.user).subscribe((response: any) => {
-            if (response['status'] == 'OK') {
-                this._userService.onUserChanged.next(this.user);
-                this._toastrService.success(response['message'], 'Utilisateur');
-                this._router.navigateByUrl('/main/administration/users');
-                this._spinnerService.hide();
-            } else {
-                this._toastrService.error(response['message']);
-                this._spinnerService.hide();
-            }
-        }, e => {
-            this._toastrService.error(environment.errorMessage);
-            this._spinnerService.hide();
-        });
+          this._userService.save(this.user).subscribe((response: any) => {
+              if (response['ok'] === true) {
+                  this._userService.onUserChanged.next(this.user);
+                  this._toastrService.success(response['message'], 'Utilisateur');
+                  this._router.navigateByUrl('/main/administration/users');
+                  this._spinnerService.hide();
+              } else {
+                  this._toastrService.error(response['message']);
+                  this._spinnerService.hide();
+              }
+          }, e => {
+              this._toastrService.error(environment.errorMessage);
+              this._spinnerService.hide();
+          });
+        console.log(this.user);
 
     }
 
     update() {
         this.user = this.userForm.getRawValue();
-        this.user.employee = this.employee;
         this.user.roles = this.selectedRoleValues;
         this._userService.update(this.user).subscribe((response: any) => {
-            if (response['status'] == 'OK') {
+            if (response['ok'] === true) {
                 this._userService.onUserChanged.next(this.user);
                 this._toastrService.success(response['message'], 'Utilisateur');
                 this._router.navigateByUrl('/main/administration/users');

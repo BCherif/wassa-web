@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 import {Observable} from 'rxjs';
 import {Forecast} from '../data/models/forecast.model';
 import {SearchBody} from '../utils/search-body';
@@ -17,7 +17,7 @@ export class ForecastService {
 
     constructor(private http: HttpClient) {
         this.serviceURL = environment.serviceUrl + '/forecasts';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
     }
 
     create(forecast: Forecast): Observable<any> {

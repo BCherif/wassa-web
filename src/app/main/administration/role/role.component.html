@@ -39,14 +39,14 @@
             <!-- / APP TITLE -->
             <button mat-raised-button (click)="save()"
                     class="save-product-button"
-                    [disabled]="roleForm.invalid || selectedPrivilegeValues?.length <= 0"
+                    [disabled]="roleForm.invalid"
                     *ngIf="pageType ==='new'">
                 <span>Enregistrer</span>
             </button>
 
             <button mat-raised-button (click)="update()"
                     class="save-product-button"
-                    [disabled]="roleForm.invalid || selectedPrivilegeValues?.length <= 0"
+                    [disabled]="roleForm.invalid"
                     *ngIf="pageType ==='edit'">
                 <span>Modifier</span>
             </button>

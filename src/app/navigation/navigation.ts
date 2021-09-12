@@ -8,112 +8,31 @@ export const navigation: FuseNavigation[] = [
         type: 'group',
         children: [
             {
-                id: 'budget-management',
-                title: 'Gestion Budgétaire',
+                id: 'wassa-management',
+                title: 'Wassa',
                 type: 'collapsable',
                 icon: 'local_atm',
                 children: [
                     {
-                        id: 'budgets',
-                        title: 'Budgets',
+                        id: 'nature',
+                        title: 'Natures',
                         type: 'item',
                         icon: 'local_atm',
-                        url: '/main/budget-management/budgets'
-                    }
-                ]
-            },
-            {
-                id: 'expenses-management',
-                title: 'Gestion dépense',
-                type: 'collapsable',
-                icon: 'attach_money',
-                children: [
-                    {
-                        id: 'activities',
-                        title: 'Demandes',
-                        type: 'item',
-                        icon: 'library_books',
-                        url: '/main/expenses-management/activities'
-                    }
-                ]
-            },
-            {
-                id: 'staff-management',
-                title: 'Gestion du Personnel',
-                type: 'collapsable',
-                icon: 'person',
-                children: [
-                    {
-                        id: 'employees',
-                        title: 'Employés',
-                        type: 'item',
-                        icon: 'person',
-                        url: '/main/staff-management/employees'
-                    }
-                ]
-            },
-            {
-                id: 'reporting',
-                title: 'Rapports',
-                type: 'item',
-                icon: 'local_atm',
-                url: '/main/reporting/reports'
-            },
-            {
-                id: 'task',
-                title: 'Tâches',
-                type: 'item',
-                icon: 'check_box',
-                url: '/main/tasks/all',
-                exactMatch: true
-            },
-            {
-                id: 'configuration',
-                title: 'Configurations',
-                type: 'collapsable',
-                icon: 'settings',
-                children: [
-                    {
-                        id: 'partners',
-                        title: 'Partenaires',
-                        type: 'item',
-                        icon: 'person',
-                        url: '/main/configuration/partners'
-                    },
-                    {
-                        id: 'projects',
-                        title: 'Projets',
-                        type: 'item',
-                        icon: 'folder',
-                        url: '/main/configuration/projects'
+                        url: '/main/wassa-management/nature-request'
                     },
                     {
                         id: 'categories',
-                        title: 'Catégories',
+                        title: 'catégories',
                         type: 'item',
-                        icon: 'settings',
-                        url: '/main/configuration/categories'
+                        icon: 'local_atm',
+                        url: '/main/wassa-management/categories'
                     },
                     {
-                        id: 'units',
-                        title: 'Unités',
+                        id: 'type',
+                        title: 'Types',
                         type: 'item',
-                        icon: 'settings',
-                        url: '/main/configuration/units'
-                    },
-                    {
-                        id: 'jobs',
-                        title: 'Professions',
-                        type: 'item',
-                        icon: 'work',
-                        url: '/main/configuration/jobs'
-                    },
-                    {
-                        id: 'departments',
-                        title: 'Départements',
-                        type: 'item',
-                        icon: 'home',
-                        url: '/main/configuration/departments'
+                        icon: 'local_atm',
+                        url: '/main/wassa-management/request-types'
                     }
                 ]
             },

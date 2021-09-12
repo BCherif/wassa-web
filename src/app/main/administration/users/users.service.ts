@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {User} from '../../../data/models/user.model';
-import {TuwindiUtils} from '../../../utils/tuwindi-utils';
+import {WassaUtils} from '../../../utils/wassa-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +26,7 @@ export class UsersService implements Resolve<any> {
         private _httpClient: HttpClient
     ) {
         this.serviceURL = environment.serviceUrl + '/users';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
 
         // Set the defaults
         this.onUsersChanged = new BehaviorSubject({});
@@ -63,10 +63,10 @@ export class UsersService implements Resolve<any> {
         return new Promise((resolve, reject) => {
             this._httpClient.get(this.serviceURL, this.httpOptions)
                 .subscribe((resBody: any) => {
-                    if (resBody['status'] === 'OK') {
-                        this.users = resBody['response'];
+                    if (resBody['ok'] === true) {
+                        this.users = resBody['data'];
                         this.onUsersChanged.next(this.users);
-                        resolve(resBody['response']);
+                        resolve(resBody['data']);
                     }
                 }, reject);
         });

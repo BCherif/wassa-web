@@ -8,7 +8,7 @@ import {FuseNavigationService} from '@fuse/components/navigation/navigation.serv
 import {FusePerfectScrollbarDirective} from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import {FuseSidebarService} from '@fuse/components/sidebar/sidebar.service';
 import {User} from '../../../../../data/models/user.model';
-import {TuwindiUtils} from '../../../../../utils/tuwindi-utils';
+import {WassaUtils} from '../../../../../utils/wassa-utils';
 
 @Component({
     selector: 'navbar-vertical-style-1',
@@ -20,7 +20,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
 
-    currentUser: User = new TuwindiUtils().getAppUser();
+    currentUser: User = new WassaUtils().getAppUser();
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;

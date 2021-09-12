@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
@@ -67,7 +67,7 @@ export class RoleComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(role => {
                 if (role) {
-                    this.role = new Role(role);
+                    this.role = role;
                     this.pageType = 'edit';
                 } else {
                     this.pageType = 'new';
@@ -89,7 +89,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     findAllPrivilege() {
         this.selectedPrivilegeValues = [];
         this._privilegeService.findAll().subscribe(value => {
-            this.privileges = value['response'];
+            this.privileges = value['data'];
             this.addCheckboxes();
         }, error => this._toastrService.error(environment.errorNetworkMessage));
     }
@@ -105,7 +105,7 @@ export class RoleComponent implements OnInit, OnDestroy {
      */
     createRoleForm() {
         this.roleForm = this._formBuilder.group({
-            name: [this.role.name],
+            name: [this.role.name, Validators.required],
             description: [this.role.description],
             privileges: new FormArray([])
         });
@@ -114,11 +114,11 @@ export class RoleComponent implements OnInit, OnDestroy {
 
     private addCheckboxes() {
         let names = [];
-        this.role.permissions.forEach(privilege => {
+        this.role?.permissions?.forEach(privilege => {
             names.push(privilege.name);
         });
 
-        this.privileges.forEach((item, i) => {
+        this.privileges?.forEach((item, i) => {
             if (names.includes(item.name)) {
                 item.checked = true;
                 this.itemCheek(i);
@@ -131,7 +131,7 @@ export class RoleComponent implements OnInit, OnDestroy {
 
     selectAll(event: MatCheckboxChange) {
         this.selectedPrivilegeValues = [];
-        this.privileges.forEach((item, i) => {
+        this.privileges?.forEach((item, i) => {
             if (event.checked) {
                 item.checked = event.checked;
                 this.itemCheek(i);
@@ -157,7 +157,7 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.role = this.roleForm.getRawValue();
         this.role.permissions = this.selectedPrivilegeValues;
         this._roleService.create(this.role).subscribe((response: any) => {
-            if (response['status'] == 'OK') {
+            if (response['ok'] === true) {
                 this._roleService.onRoleChanged.next(this.role);
                 this._toastrService.success(response['message'], 'Rôle');
                 this._router.navigateByUrl('/main/administration/roles');
@@ -177,7 +177,7 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.role = this.roleForm.getRawValue();
         this.role.permissions = this.selectedPrivilegeValues;
         this._roleService.update(this.role).subscribe((response: any) => {
-            if (response['status'] == 'OK') {
+            if (response['ok'] === true) {
                 this._roleService.onRoleChanged.next(this.role);
                 this._toastrService.success(response['message'], 'Rôle');
                 this._router.navigateByUrl('/main/administration/roles');

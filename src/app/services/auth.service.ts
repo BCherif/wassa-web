@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 import {AuthBody} from '../utils/auth-body';
 
 @Injectable({
@@ -13,8 +13,8 @@ export class AuthService {
     readonly httpOptions: any;
 
     constructor(private http: HttpClient, private router: Router) {
-        this.serviceURL = environment.serviceUrl + '/auth';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.serviceURL = environment.serviceUrl;
+        this.httpOptions = new WassaUtils().httpHeaders();
     }
 
     public login(authBody: AuthBody) {

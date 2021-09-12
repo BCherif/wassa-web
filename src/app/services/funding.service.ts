@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 import {Observable} from 'rxjs';
 import {Funding} from '../data/models/funding.model';
 
@@ -15,7 +15,7 @@ export class FundingService {
 
     constructor(private http: HttpClient) {
         this.serviceURL = environment.serviceUrl + '/fundings';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
     }
 
     create(funding: Funding): Observable<any> {

@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {User} from '../../../data/models/user.model';
-import {TuwindiUtils} from '../../../utils/tuwindi-utils';
+import {WassaUtils} from '../../../utils/wassa-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +26,7 @@ export class UserService implements Resolve<any> {
     ) {
         // Set the defaults
         this.onUserChanged = new BehaviorSubject({});
-        this.httpOptions = new TuwindiUtils().httpHeaders();
+        this.httpOptions = new WassaUtils().httpHeaders();
         this.serviceURL = environment.serviceUrl + '/users';
     }
 
@@ -66,20 +66,20 @@ export class UserService implements Resolve<any> {
             } else {
                 this._httpClient.get(this.serviceURL + '/' + this.routeParams.id + '/getUser', this.httpOptions)
                     .subscribe((response: any) => {
-                        this.user = response['response'];
+                        this.user = response['data'];
                         this.onUserChanged.next(this.user);
-                        resolve(response['response']);
+                        resolve(response['data']);
                     }, reject);
             }
         });
     }
 
     public save(user: User) {
-        return this._httpClient.post(this.serviceURL + '/save', user, this.httpOptions);
+        return this._httpClient.post(this.serviceURL, user, this.httpOptions);
     }
 
     public update(user: User) {
-        return this._httpClient.put(this.serviceURL + '/update', user, this.httpOptions);
+        return this._httpClient.put(this.serviceURL, user, this.httpOptions);
     }
 
 

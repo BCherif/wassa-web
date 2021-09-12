@@ -29,7 +29,7 @@
                 <div fxLayout="column" fxLayoutAlign="start start"
                      [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
                     <div class="h2" *ngIf="pageType ==='edit'">
-                        {{user?.employee?.firstname}} {{user?.employee?.lastname}}
+                        {{user?.fullName}}
                     </div>
                     <div class="h2" *ngIf="pageType ==='new'">
                         Nouveau Utilisateur
@@ -64,6 +64,22 @@
                     <div class="tab-content p-24" fusePerfectScrollbar>
 
                         <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Prénom</mat-label>
+                            <input matInput placeholder="Prénom"
+                                   name="firstname"
+                                   formControlName="firstname"
+                                   required>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Nom</mat-label>
+                            <input matInput placeholder="Nom"
+                                   name="lastname"
+                                   formControlName="lastname"
+                                   required>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                             <mat-label>Nom d'Utilisateur</mat-label>
                             <input matInput placeholder="Nom d'Utilisateur"
                                    name="username"
@@ -71,26 +87,28 @@
                                    required>
                         </mat-form-field>
 
-                        <mat-form-field *ngIf="pageType ==='new'" appearance="outline" floatLabel="always"
-                                        class="w-100-p">
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
                             <mat-label>Mot de Passe</mat-label>
                             <input matInput placeholder="Mot de Passe" type="password"
                                    name="password"
                                    formControlName="password"
-                                   required>
+                                   required
+                                   [required]='pageType === "new"'>
                         </mat-form-field>
 
-                        <mat-form-field appearance="outline" floatLabel="always"
-                                        class="w-100-p">
-                            <mat-label>Employé</mat-label>
-                            <mat-select formControlName="employee"
-                                        (selectionChange)="getEmployeeSelected($event.value)"
-                                        required>
-                                <mat-option *ngFor="let emp of employees"
-                                            [value]="emp.id">
-                                    {{emp?.firstname}} {{emp?.lastname}}
-                                </mat-option>
-                            </mat-select>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Tel</mat-label>
+                            <input matInput placeholder="Tel"
+                                   name="phone"
+                                   formControlName="phone">
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="Email"
+                                   name="email"
+                                   formControlName="email">
                         </mat-form-field>
 
                         <div>

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {TuwindiUtils} from '../utils/tuwindi-utils';
+import {WassaUtils} from '../utils/wassa-utils';
 
 @Injectable({
     providedIn: 'root'
@@ -14,8 +14,8 @@ export class ExpenseService {
 
     constructor(private http: HttpClient) {
         this.serviceURL = environment.serviceUrl + '/expenses';
-        this.httpOptions = new TuwindiUtils().httpHeaders();
-        this.uploadOption = new TuwindiUtils().uploadOption();
+        this.httpOptions = new WassaUtils().httpHeaders();
+        this.uploadOption = new WassaUtils().uploadOption();
     }
 
     sumExpenseByLine(id: number) {

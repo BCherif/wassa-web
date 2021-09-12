@@ -1,28 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Deserializable} from '../wrapper/deserializable.wrapper';
+import {NatureRequest} from './nature.request.model';
+import {Entity} from '../../utils/entity';
 
-@Injectable()
-export class Category implements Deserializable {
-    id: number;
-    name: string;
-    description: string;
-    createDate?: Date = new Date();
-    updateDate?: Date;
-
-    constructor(category?) {
-        category = category || {};
-        this.id = category.id;
-        this.name = category.name;
-        this.description = category.description;
-        this.createDate = category.createDate;
-        this.updateDate = category.updateDate;
-    }
-
-    deserialize(input: any): this {
-        return Object.assign(this, input);
-    }
-
-    equals(obj: any): boolean {
-        return this.id === obj.id;
-    }
+export class Category {
+    id?: number;
+    category: string;
+    state: boolean;
+    natureRequest: NatureRequest;
 }
