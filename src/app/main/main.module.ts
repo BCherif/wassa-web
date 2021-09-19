@@ -10,6 +10,10 @@ const routes = [
     {
         path: 'wassa-management',
         loadChildren: () => import('./wassa-management/wassa-management.module').then(m => m.WassaManagementModule)
+    },
+    {
+        path: 'customer-file-management',
+        loadChildren: () => import('./customer-file-management/customer-file-management.module').then(m => m.CustomerFileManagementModule)
     }
 ];
 

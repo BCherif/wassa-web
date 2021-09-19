@@ -37,6 +37,13 @@ export const navigation: FuseNavigation[] = [
                 ]
             },
             {
+                id: 'main-dashboard',
+                title: 'Gestion de la fiche client',
+                type: 'item',
+                icon: 'dashboard',
+                url: '/main/customer-file-management/customer-forms'
+            },
+            {
                 id: 'administration',
                 title: 'Administrations',
                 type: 'collapsable',
