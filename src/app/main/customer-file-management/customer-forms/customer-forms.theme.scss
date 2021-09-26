@@ -1,0 +1,27 @@
+@mixin customer-file-management-customer-forms-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    customer-file-management-customer-forms {
+
+        .header {
+
+            .search-wrapper {
+                background: map-get($background, card);
+
+                .search {
+
+                    .mat-icon {
+                        color: map-get($foreground, icon);
+                    }
+
+                    input {
+                        background: map-get($background, card);
+                        color: map-get($foreground, text);
+                    }
+                }
+            }
+        }
+    }
+}

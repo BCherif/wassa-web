@@ -5,7 +5,7 @@ export class NatureRequest {
     id?: number;
     nature: string;
     state: boolean;
-    slaTto: string;
-    slaTtr: string;
+    slaTto: number;
+    slaTtr: number;
     requestType: RequestType;
 }

@@ -10,7 +10,11 @@
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
-        <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#006400" type="ball-scale-multiple">
+        <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#006400"
+            type="ball-scale-multiple">
             <p style="font-size: 20px; color: white">S'il vous plaît, attendez ...</p>
         </ngx-spinner>
 
@@ -26,7 +30,8 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Type</mat-label>
-                    <mat-select formControlName="requestType" (selectionChange)="onTypeChange($event.value)">
+                    <mat-select formControlName="requestType"
+                                (selectionChange)="onTypeChange($event.value)">
                         <mat-option *ngFor="let requestType of requestTypes" [value]="requestType?.id">
                             {{requestType?.type}}
                         </mat-option>
@@ -37,14 +42,14 @@
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>SLATTO</mat-label>
-                    <input type="number" name="slaTto" formControlName="slaTto" matInput required>
+                    <input name="slaTto" type="number" formControlName="slaTto" matInput required>
                 </mat-form-field>
             </div>
 
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>SLATTR</mat-label>
-                    <input type="number" name="slaTtr" formControlName="slaTtr" matInput required>
+                    <input name="slaTtr" type="number" formControlName="slaTtr" matInput required>
                 </mat-form-field>
             </div>
             <!--<div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
@@ -62,15 +67,28 @@
 
     <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="center">
 
-        <button *ngIf="action !== 'edit'" mat-button class="save-button" (click)="saveOrUpdate()" [disabled]="natureForm.invalid" matTooltip="Enregistrer">
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="saveOrUpdate()"
+                [disabled]="natureForm.invalid"
+                matTooltip="Enregistrer">
             Enregistrer
         </button>
 
-        <button *ngIf="action === 'edit'" mat-button class="save-button" (click)="saveOrUpdate()" [disabled]="natureForm.invalid || natureForm.pristine" matTooltip="Modifier">
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="saveOrUpdate()"
+                [disabled]="natureForm.invalid || natureForm.pristine"
+                matTooltip="Modifier">
             Modifier
         </button>
 
-        <button (click)="matDialogRef.close()" class="mr-8" mat-button matTooltip="Annnuler">
+        <button (click)="matDialogRef.close()"
+                class="mr-8"
+                mat-button
+                matTooltip="Annnuler">
             Annnuler
         </button>
 

@@ -14,6 +14,8 @@ const routes = [
     {
         path: 'manage-customer',
         loadChildren: () => import('./manage-customer/manage-customer.module').then(m => m.ManageCustomerModule)
+        path: 'customer-file-management',
+        loadChildren: () => import('./customer-file-management/customer-file-management.module').then(m => m.CustomerFileManagementModule)
     }
 ];
 

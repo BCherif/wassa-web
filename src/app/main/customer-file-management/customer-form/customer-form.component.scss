@@ -1,23 +1,6 @@
-#role {
+#customer-form {
 
     .header {
-
-        .role-image {
-            overflow: hidden;
-            width: 56px;
-            min-width: 56px;
-            max-width: 56px;
-            height: 56px;
-            min-height: 56px;
-            max-height: 56px;
-            border-radius: 4px;
-
-            img {
-                height: 100%;
-                width: auto;
-                max-width: none;
-            }
-        }
 
         .subtitle {
             margin: 6px 0 0 0;
@@ -45,21 +28,6 @@
 
         .mat-tab-label {
             height: 64px;
-        }
-
-        .role-image {
-            overflow: hidden;
-            width: 128px;
-            height: 128px;
-            margin-right: 16px;
-            margin-bottom: 16px;
-            border-radius: 4px;
-
-            img {
-                height: 100%;
-                width: auto;
-                max-width: none;
-            }
         }
 
         // Temporary prefix alignment fix

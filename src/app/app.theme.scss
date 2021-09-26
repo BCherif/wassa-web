@@ -86,6 +86,7 @@ $typography: mat-typography-config(
 @import "src/app/main/wassa-management/nature-request/nature-request.theme";
 @import "src/app/main/wassa-management/request-types/request-types.theme";
 @import "src/app/main/wassa-management/categories/categories.theme";
+@import "src/app/main/customer-file-management/customer-forms/customer-forms.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -99,6 +100,7 @@ $typography: mat-typography-config(
     @include wassa-management-nature-request-theme($theme);
     @include wassa-management-request-types-theme($theme);
     @include wassa-management-categories-theme($theme);
+    @include customer-file-management-customer-forms-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------
