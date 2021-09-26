@@ -10,6 +10,10 @@ const routes = [
     {
         path: 'wassa-management',
         loadChildren: () => import('./wassa-management/wassa-management.module').then(m => m.WassaManagementModule)
+    },
+    {
+        path: 'manage-customer',
+        loadChildren: () => import('./manage-customer/manage-customer.module').then(m => m.ManageCustomerModule)
     }
 ];
 
@@ -18,7 +22,8 @@ const routes = [
     imports: [
         RouterModule.forChild(routes),
         FuseSharedModule
-    ]
+    ],
+    declarations: []
 })
 export class MainModule {
 }

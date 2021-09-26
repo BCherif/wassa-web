@@ -1,0 +1,84 @@
+<div class="page-layout carded fullwidth inner-scroll" id="fiche-client">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- HEADER -->
+        <div class="header accent" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="space-between center">
+
+            <!-- APP TITLE -->
+            <div class="logo mb-24 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}" class="logo-icon s-32 mr-16">
+                    person
+                </mat-icon>
+                <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}" class="logo-text h1">Clients</span>
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="search-wrapper  ml-sm-32">
+                <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon>search</mat-icon>
+                    <input placeholder="Rechercher un utilisateur">
+                </div>
+            </div>
+            <!-- / SEARCH -->
+
+            <button mat-raised-button [routerLink]="'/main/manage-customer/add-customer'" class="add-product-button fuse-white mt-24 mt-md-0">
+                <mat-icon>add</mat-icon>
+                <span>Fiche client</span>
+            </button>
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+            <form name="userForm" ngForm="addClient" class="role w-100-p" fxLayout="column" fxFlex>
+
+                <div class="tab-content p-24" fusePerfectScrollbar>
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Prénom</mat-label>
+                        <input matInput placeholder="Prénom" name="firstname" formControlName="firstname" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Nom</mat-label>
+                        <input matInput placeholder="Nom" name="lastname" formControlName="lastname" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Nom d'Utilisateur</mat-label>
+                        <input matInput placeholder="Nom d'Utilisateur" name="username" formControlName="username" required>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Mot de Passe</mat-label>
+                        <input matInput placeholder="Mot de Passe" type="password" name="password" formControlName="password" required>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Tel</mat-label>
+                        <input matInput placeholder="Tel" name="phone" formControlName="phone">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always" class="w-100-p">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Email" name="email" formControlName="email">
+                    </mat-form-field>
+
+
+                </div>
+
+            </form>
+        </div>
+        <!-- / CONTENT CARD -->
+    </div>
+    <!-- / CENTER -->
+</div>

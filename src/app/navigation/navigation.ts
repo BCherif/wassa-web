@@ -57,6 +57,28 @@ export const navigation: FuseNavigation[] = [
                         url: '/main/administration/roles'
                     }
                 ]
+            },
+            {
+                id: 'gestion-client',
+                title: 'Fiche client',
+                type: 'collapsable',
+                icon: 'person_add',
+                children: [
+                    {
+                        id: 'fiche-client',
+                        title: 'Client',
+                        type: 'item',
+                        icon: 'person',
+                        url: '/main/manage-customer/customer'
+                    },
+                    // {
+                    //     id: 'roles',
+                    //     title: 'Rôles',
+                    //     type: 'item',
+                    //     icon: 'people_outline',
+                    //     url: '/main/administration/roles'
+                    // }
+                ]
             }
         ]
     }
